@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TMDT UX Design Directions</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #7c3aed;
+      --success: #16a34a;
+      --warning: #d97706;
+      --error: #dc2626;
+      --info: #0284c7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    .header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .sub { margin: 0; color: var(--muted); }
+    .controls {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+
+    .direction {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    .direction-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .direction h2 { margin: 0; font-size: 18px; }
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--primary);
+      white-space: nowrap;
+    }
+    .direction-body { padding: 14px 16px 16px; }
+    .desc { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+
+    .mock {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .mock-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .status {
+      font-size: 12px;
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-weight: 700;
+      color: white;
+      background: var(--success);
+    }
+    .mock-content { padding: 12px; display: grid; gap: 10px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .blk {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      color: #334155;
+      min-height: 56px;
+    }
+    .cta {
+      border: none;
+      width: 100%;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--primary);
+      cursor: pointer;
+    }
+    .cta:hover { background: var(--primary-hover); }
+    .legend {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+    }
+    .legend ul { margin: 8px 0 0 20px; }
+    .active-only { display: none; }
+    body.compact .active-only { display: block; }
+    body.compact .direction:not(.selected) { display: none; }
+    .selected { outline: 2px solid var(--primary); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>TMDT — Design Direction Explorations</h1>
+      <p class="sub">6 hướng giao diện cho core flow: Khám phá → Try-on → Checkout → Tracking</p>
+      <div class="controls">
+        <button class="btn" onclick="toggleCompact()">Toggle focus mode</button>
+        <button class="btn" onclick="clearSelection()">Clear selection</button>
+      </div>
+      <p class="sub active-only" id="focusLabel">Đang ở chế độ focus một direction.</p>
+    </div>
+
+    <div class="grid" id="grid">
+      <article class="direction" data-id="D1" onclick="selectDirection('D1')">
+        <div class="direction-head"><h2>D1 — Marketplace Clarity</h2><span class="tag">Safe & Familiar</span></div>
+        <div class="direction-body">
+          <p class="desc">Ưu tiên hierarchy rõ, density vừa phải, CTA nổi bật. Gần mental model Shopee/Lazada.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>PDP + Try-on</strong><span class="status">Ready</span></div>
+            <div class="mock-content">
+              <div class="row"><div class="blk">Product media</div><div class="blk">Price + Variant</div></div>
+              <div class="row"><div class="blk">AI try-on panel</div><div class="blk">Suggested items</div></div>
+              <button class="cta">Chọn size & Thêm vào giỏ</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction" data-id="D2" onclick="selectDirection('D2')">
+        <div class="direction-head"><h2>D2 — Visual Confidence</h2><span class="tag" style="background:#7c3aed">Try-on First</span></div>
+        <div class="direction-body">
+          <p class="desc">Nhấn mạnh hình ảnh và trước/sau try-on; giảm text phụ, dẫn quyết định mua bằng visual.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>Try-on Focus</strong><span class="status" style="background:#0284c7">Processing</span></div>
+            <div class="mock-content">
+              <div class="blk">Large try-on result viewport</div>
+              <div class="row"><div class="blk">Fit confidence</div><div class="blk">Top recommendations</div></div>
+              <button class="cta">Mua theo kết quả này</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction" data-id="D3" onclick="selectDirection('D3')">
+        <div class="direction-head"><h2>D3 — Transaction Trust</h2><span class="tag" style="background:#0284c7">Payment Clarity</span></div>
+        <div class="direction-body">
+          <p class="desc">Tập trung minh bạch payment/tracking với timeline trạng thái và thông điệp recovery rõ.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>Checkout + Status</strong><span class="status" style="background:#16a34a">Verified</span></div>
+            <div class="mock-content">
+              <div class="row"><div class="blk">Order summary</div><div class="blk">Payment method</div></div>
+              <div class="blk">Status timeline + timestamp + next action</div>
+              <button class="cta">Xác nhận thanh toán</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction" data-id="D4" onclick="selectDirection('D4')">
+        <div class="direction-head"><h2>D4 — Speed Minimal</h2><span class="tag" style="background:#0f172a">Low Friction</span></div>
+        <div class="direction-body">
+          <p class="desc">UI tối giản, ít khối thông tin, thao tác nhanh. Ưu tiên conversion và tốc độ nhận thức.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>Quick Buy Flow</strong><span class="status" style="background:#d97706">1 step left</span></div>
+            <div class="mock-content">
+              <div class="blk">Compact product + variant picker</div>
+              <div class="blk">One-column checkout essentials</div>
+              <button class="cta">Đặt hàng ngay</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction" data-id="D5" onclick="selectDirection('D5')">
+        <div class="direction-head"><h2>D5 — Guided Journey</h2><span class="tag" style="background:#d97706">Step by Step</span></div>
+        <div class="direction-body">
+          <p class="desc">Luồng wizard rõ từng bước cho người dùng mới: upload ảnh → try-on → chọn size → checkout.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>Guided Try-on</strong><span class="status" style="background:#0284c7">Step 2/4</span></div>
+            <div class="mock-content">
+              <div class="blk">Progress steps + contextual help</div>
+              <div class="row"><div class="blk">Current action</div><div class="blk">Tips & constraints</div></div>
+              <button class="cta">Tiếp tục bước kế</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction" data-id="D6" onclick="selectDirection('D6')">
+        <div class="direction-head"><h2>D6 — Hybrid Operator</h2><span class="tag" style="background:#475569">Role-aware</span></div>
+        <div class="direction-body">
+          <p class="desc">Giữ storefront thân thiện cho customer, đồng thời dashboard admin/warehouse density cao hiệu quả.</p>
+          <div class="mock">
+            <div class="mock-top"><strong>Customer + Ops</strong><span class="status" style="background:#16a34a">Synced</span></div>
+            <div class="mock-content">
+              <div class="row"><div class="blk">Customer storefront card layout</div><div class="blk">Ops table + filters</div></div>
+              <div class="blk">Unified status language across roles</div>
+              <button class="cta">Mở workspace theo vai trò</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="legend">
+      <strong>Evaluation checklist:</strong>
+      <ul>
+        <li>Layout có giúp flow Try-on → Checkout rõ hơn không?</li>
+        <li>Mức độ tin cậy trạng thái payment/tracking có đủ cao không?</li>
+        <li>Độ dày thông tin có hợp cho mobile-first không?</li>
+        <li>Direction có phù hợp mục tiêu confidence + trust + calm không?</li>
+      </ul>
+      <p id="selectedText" style="margin-top:10px;color:#334155"><strong>Selected:</strong> none</p>
+    </div>
+  </div>
+
+  <script>
+    function selectDirection(id) {
+      document.querySelectorAll('.direction').forEach(el => el.classList.remove('selected'));
+      const chosen = document.querySelector(`.direction[data-id="${id}"]`);
+      if (chosen) chosen.classList.add('selected');
+      document.getElementById('selectedText').innerHTML = `<strong>Selected:</strong> ${id}`;
+      localStorage.setItem('tmdt-direction-selected', id);
+    }
+
+    function clearSelection() {
+      document.querySelectorAll('.direction').forEach(el => el.classList.remove('selected'));
+      document.getElementById('selectedText').innerHTML = '<strong>Selected:</strong> none';
+      localStorage.removeItem('tmdt-direction-selected');
+    }
+
+    function toggleCompact() {
+      document.body.classList.toggle('compact');
+    }
+
+    (function restoreSelection() {
+      const saved = localStorage.getItem('tmdt-direction-selected');
+      if (saved) selectDirection(saved);
+    })();
+  </script>
+</body>
+</html>

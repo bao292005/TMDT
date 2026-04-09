@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"/Users/nguyenquocbao/TMDT/_bmad/user-config.yaml\"}",
+  "error": "File does not exist. Note: your current working directory is /Users/nguyenquocbao/TMDT.",
+  "timestamp": "2026-04-09T03:09:12.855Z",
+  "retry_count": 1
+}

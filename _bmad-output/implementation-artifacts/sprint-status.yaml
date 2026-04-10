@@ -1,0 +1,91 @@
+# generated: 2026-04-10T00:00:00Z
+# last_updated: 2026-04-10T15:00:00Z
+# project: TMDT
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: {project-root}/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-04-10T00:00:00Z
+last_updated: 2026-04-10T16:10:00Z
+project: TMDT
+project_key: NOKEY
+tracking_system: file-system
+story_location: /Users/nguyenquocbao/TMDT/_bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: in-progress
+  1-1-khoi-tao-du-an-tu-starter-template: done
+  1-2-dang-ky-va-dang-nhap-tai-khoan-khach-hang: review
+  1-3-rbac-cho-customer-admin-warehouse: backlog
+  1-4-quan-ly-ho-so-va-nhat-ky-quan-tri-tai-khoan: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-duyet-danh-muc-va-tim-kiem-san-pham: backlog
+  2-2-loc-san-pham-theo-thuoc-tinh-mua-sam: backlog
+  2-3-pdp-bien-the-ton-kho-va-seo-public: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-upload-anh-va-xu-ly-ai-try-on: backlog
+  3-2-retry-try-on-va-luu-ket-qua-theo-phien: backlog
+  3-3-recommendation-baseline-va-ca-nhan-hoa-co-ban: backlog
+  3-4-ui-tryonconfidencepanel-va-variantfitselector: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-quan-ly-gio-hang-va-kiem-tra-hop-le: backlog
+  4-2-checkout-dia-chi-van-chuyen-va-tong-tien: backlog
+  4-3-tao-don-hang-va-thanh-toan-online-cod: backlog
+  4-4-xu-ly-callback-payment-trang-thai-pending-va-retry: backlog
+  4-5-paymentstatustimeline-cho-post-checkout-clarity: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-khach-hang-xem-danh-sach-va-chi-tiet-don-hang: backlog
+  5-2-theo-doi-trang-thai-don-va-tracking-number: backlog
+  5-3-warehouse-queue-xu-ly-dong-goi-va-tao-van-don: backlog
+  5-4-fallback-trang-thai-van-chuyen-khi-tich-hop-loi: backlog
+  epic-5-retrospective: optional
+
+  epic-6: backlog
+  6-1-quan-ly-san-pham-va-vong-doi-trang-thai-don: backlog
+  6-2-xu-ly-don-bat-thuong-va-bang-kpi-van-hanh: backlog
+  6-3-xuat-bao-cao-va-log-truy-vet-nghiep-vu: backlog
+  epic-6-retrospective: optional
+
+  epic-7: backlog
+  7-1-cau-hinh-endpoint-sandbox-mock-real-theo-moi-truong: backlog
+  7-2-timeout-retry-va-chuan-hoa-loi-tich-hop: backlog
+  7-3-reconciliation-trang-thai-payment-warehouse-shipping: backlog
+  7-4-fallback-dam-bao-demo-end-to-end-lien-tuc: backlog
+  epic-7-retrospective: optional

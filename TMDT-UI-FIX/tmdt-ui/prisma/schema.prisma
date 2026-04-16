@@ -1,0 +1,113 @@
+// Prisma Schema cho TMĐT Store
+// Chạy: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============ MODELS ============
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  phone        String?     @unique
+  name         String
+  passwordHash String
+  avatarUrl    String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  cartItems    CartItem[]
+  orders       Order[]
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String
+  slug     String    @unique
+  imageUrl String?
+
+  products Product[]
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  name          String
+  slug          String      @unique
+  description   String
+  price         Float
+  originalPrice Float?
+  stock         Int         @default(0)
+  images        String[]    // Mảng URL ảnh sản phẩm
+  aiMaskUrl     String?     // URL mask dùng cho tính năng AI Try-On
+  rating        Float?
+  soldCount     Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  categoryId    String
+  category      Category    @relation(fields: [categoryId], references: [id])
+
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  variantId String?
+  quantity  Int      @default(1)
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  orderNumber     String        @unique @default(cuid()) // Mã đơn hàng rõ ràng cho VNPAY/MoMo
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  status          OrderStatus   @default(PENDING)
+  paymentStatus   PaymentStatus @default(UNPAID)   // UNPAID | PAID | FAILED
+  totalAmount     Float
+  shippingFee     Float         @default(0)
+  paymentMethod   String        // VNPAY | MOMO | COD
+  shippingAddress String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  orderItems  OrderItem[]
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  variantName String
+  quantity    Int
+  price       Float
+}
+
+
+// ============ ENUMS ============
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+}

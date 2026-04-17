@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/nguyenquocbao/TMDT/tmdt\\\" && node --experimental-default-type=module --test src/**/*.test.js\",\"timeout\":600000,\"description\":\"Re-run full Node test suite after latest fixes\"}",
+  "error": "Exit code 1\nTAP version 13\n# Subtest: cart client giữ keyboard/focus semantics cho tương tác chính\nok 1 - cart client giữ keyboard/focus semantics cho tương tác chính\n  ---\n  duration_ms: 3.741667\n  ...\n# Subtest: checkout validate trả snapshot invalid để UI chặn checkout\nok 2 - checkout validate trả snapshot invalid để UI chặn checkout\n  ---\n  duration_ms: 165.194792\n  ...\n# Subtest: checkout logic: redirect khi unauthorized hoặc forbidden\nok 3 - checkout logic: redirect khi unauthorized hoặc f...",
+  "timestamp": "2026-04-17T08:13:31.654Z",
+  "retry_count": 3
+}

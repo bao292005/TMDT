@@ -1,0 +1,449 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776407834168,
+  "projectRoot": "/Users/nguyenquocbao/TMDT/tmdt",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.2.3",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint",
+      "db:generate": "prisma generate",
+      "db:migrate": "prisma migrate deploy",
+      "db:reset": "prisma migrate reset --force",
+      "db:seed": "prisma db seed",
+      "db:setup": "npm run db:reset"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1776407834137,
+      "keyFiles": []
+    },
+    "prisma": {
+      "path": "prisma",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1776407834140,
+      "keyFiles": [
+        "backfill-catalog-images.js",
+        "dev.db",
+        "schema.prisma",
+        "seed.js"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 5,
+      "lastAccessed": 1776407834141,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "next.svg",
+        "vercel.svg",
+        "window.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1776407834141,
+      "keyFiles": []
+    },
+    "prisma/migrations": {
+      "path": "prisma/migrations",
+      "purpose": "Database migrations",
+      "fileCount": 1,
+      "lastAccessed": 1776407834142,
+      "keyFiles": [
+        "migration_lock.toml"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 4,
+      "lastAccessed": 1776407834143,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1776407834143,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src",
+      "accessCount": 23,
+      "lastAccessed": 1776413903988,
+      "type": "directory"
+    },
+    {
+      "path": "",
+      "accessCount": 23,
+      "lastAccessed": 1776413916788,
+      "type": "directory"
+    },
+    {
+      "path": "src/modules/identity/session-store.js",
+      "accessCount": 13,
+      "lastAccessed": 1776413308261,
+      "type": "file"
+    },
+    {
+      "path": "src/components/features/product-card.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1776408880535,
+      "type": "file"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "accessCount": 9,
+      "lastAccessed": 1776413628295,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/identity/user-store.js",
+      "accessCount": 8,
+      "lastAccessed": 1776413450139,
+      "type": "file"
+    },
+    {
+      "path": "src/app",
+      "accessCount": 7,
+      "lastAccessed": 1776413323216,
+      "type": "directory"
+    },
+    {
+      "path": "src/modules/identity/auth-service.js",
+      "accessCount": 6,
+      "lastAccessed": 1776413904053,
+      "type": "file"
+    },
+    {
+      "path": "src/components/home/flash-sale.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1776408880704,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/Header.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1776413948956,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/admin/reconciliation/route.test.js",
+      "accessCount": 4,
+      "lastAccessed": 1776408450638,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/home/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776408880645,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/identity/authorization.js",
+      "accessCount": 4,
+      "lastAccessed": 1776409842862,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/storefront-layout.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776413568092,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/auth/logout/route.js",
+      "accessCount": 4,
+      "lastAccessed": 1776413904005,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/orders/[orderId]/order-detail-client.test.js",
+      "accessCount": 3,
+      "lastAccessed": 1776408205101,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/products/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776408880568,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/products/[slug]/recommendation-list.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776408880589,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/products/[slug]/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409030672,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/auth/login/route.js",
+      "accessCount": 3,
+      "lastAccessed": 1776409735427,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/auth/register/route.js",
+      "accessCount": 3,
+      "lastAccessed": 1776409735451,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/orders/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409752495,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/identity/session-context.js",
+      "accessCount": 3,
+      "lastAccessed": 1776409752535,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/checkout/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409752590,
+      "type": "file"
+    },
+    {
+      "path": "src/app/admin/orders/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409752644,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/orders/[orderId]/order-detail-client.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409764861,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/cart/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409773958,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(auth)/register/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409774012,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(warehouse)/queue/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409774025,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(auth)/login/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776409774072,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(customer)/orders/[orderId]/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776409596251,
+      "type": "file"
+    },
+    {
+      "path": "src/app/admin/products/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776409605847,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/admin/users/[userId]/account-status/route.js",
+      "accessCount": 2,
+      "lastAccessed": 1776409639429,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/catalog/product-store.js",
+      "accessCount": 2,
+      "lastAccessed": 1776409752449,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/checkout/route.js",
+      "accessCount": 2,
+      "lastAccessed": 1776409764754,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/orders/route.js",
+      "accessCount": 2,
+      "lastAccessed": 1776409764811,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/identity/password.js",
+      "accessCount": 2,
+      "lastAccessed": 1776409773981,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/feedback-message.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776408195485,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/order/reconciliation-service.js",
+      "accessCount": 1,
+      "lastAccessed": 1776408427609,
+      "type": "file"
+    },
+    {
+      "path": "src/components",
+      "accessCount": 1,
+      "lastAccessed": 1776408679118,
+      "type": "directory"
+    },
+    {
+      "path": "src/modules/catalog",
+      "accessCount": 1,
+      "lastAccessed": 1776408679155,
+      "type": "directory"
+    },
+    {
+      "path": "src/components/home/banner-slider.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776408685673,
+      "type": "file"
+    },
+    {
+      "path": "next.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1776408794482,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/catalog/products/[slug]/route.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409006517,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/catalog/catalog-service.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409006569,
+      "type": "directory"
+    },
+    {
+      "path": "prisma/seed.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409586569,
+      "type": "file"
+    },
+    {
+      "path": "src/modules/identity",
+      "accessCount": 1,
+      "lastAccessed": 1776409595337,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/(auth)/layout.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776409605900,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/cart/route.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409616216,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/orders/[orderId]/route.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409616329,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

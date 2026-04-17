@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+
+import { Input } from "@/components/ui/input";
 
 type FormState = {
   email: string;
@@ -43,58 +45,54 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-6">
-      <h1 className="text-2xl font-semibold">Đăng nhập</h1>
+    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-4 py-10">
+      <section className="w-full rounded-sm border-t-4 border-[#ee4d2d] bg-white p-8 shadow-[0_0_20px_rgba(0,0,0,0.05)]">
+        <header className="mb-8 text-center">
+          <h1 className="mb-2 text-2xl font-bold text-[#ee4d2d]">Đăng nhập</h1>
+          <p className="text-sm text-zinc-500">Đăng nhập để tiếp tục mua sắm và checkout.</p>
+        </header>
 
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border p-4">
-        <div className="space-y-1">
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
             id="email"
             name="email"
             type="email"
+            label="Email"
             value={form.email}
             onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-            className="w-full rounded border px-3 py-2"
             autoComplete="email"
             required
           />
-        </div>
 
-        <div className="space-y-1">
-          <label htmlFor="password" className="block text-sm font-medium">
-            Mật khẩu
-          </label>
-          <input
+          <Input
             id="password"
             name="password"
             type="password"
+            label="Mật khẩu"
             value={form.password}
             onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
-            className="w-full rounded border px-3 py-2"
             autoComplete="current-password"
             required
           />
-        </div>
 
-        {error ? (
-          <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
-        ) : null}
+          {error ? <p className="rounded-sm bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded bg-black px-4 py-2 text-white disabled:opacity-50"
-        >
-          {submitting ? "Đang xử lý..." : "Đăng nhập"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full rounded-sm bg-[#ee4d2d] px-4 py-3 text-sm font-medium uppercase text-white transition-colors hover:bg-[#f05d40] disabled:opacity-50"
+          >
+            {submitting ? "Đang xử lý..." : "Đăng nhập"}
+          </button>
+        </form>
 
-      <p className="text-sm text-zinc-600">
-        Chưa có tài khoản? <Link href="/register" className="underline">Đăng ký</Link>
-      </p>
+        <p className="mt-6 border-t pt-4 text-center text-sm text-zinc-500">
+          Chưa có tài khoản?{" "}
+          <Link href="/register" className="font-medium text-[#ee4d2d]">
+            Đăng ký
+          </Link>
+        </p>
+      </section>
     </main>
   );
 }

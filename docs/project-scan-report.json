@@ -1,0 +1,99 @@
+{
+  "workflow_version": "1.2.0",
+  "timestamps": {
+    "started": "2026-04-16T15:47:14Z",
+    "last_updated": "2026-04-16T15:47:14Z",
+    "completed": "2026-04-16T15:47:14Z"
+  },
+  "mode": "initial_scan",
+  "scan_level": "deep",
+  "project_root": "/Users/nguyenquocbao/TMDT/tmdt",
+  "project_knowledge": "/Users/nguyenquocbao/TMDT/docs",
+  "project_classification": {
+    "repository_type": "monolith",
+    "parts": [
+      {
+        "part_id": "app",
+        "display_name": "TMDT Web Application",
+        "root_path": "/Users/nguyenquocbao/TMDT/tmdt",
+        "project_type_id": "web",
+        "primary_stack": "Next.js 16 + React 19 + Node.js"
+      }
+    ]
+  },
+  "completed_steps": [
+    {
+      "step": "step_1",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Classified as monolith web project"
+    },
+    {
+      "step": "step_2",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "No existing docs found in docs/"
+    },
+    {
+      "step": "step_3",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Detected tech stack and architecture pattern"
+    },
+    {
+      "step": "step_4",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Analyzed API, modules, data models, security, testing"
+    },
+    {
+      "step": "step_5",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Generated source tree analysis"
+    },
+    {
+      "step": "step_6",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Extracted dev/build/test/deployment guidance"
+    },
+    {
+      "step": "step_8",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Generated architecture documentation"
+    },
+    {
+      "step": "step_9",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Generated supporting docs"
+    },
+    {
+      "step": "step_10",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Generated docs index"
+    },
+    {
+      "step": "step_12",
+      "status": "completed",
+      "timestamp": "2026-04-16T15:47:14Z",
+      "summary": "Workflow complete"
+    }
+  ],
+  "outputs_generated": [
+    "project-scan-report.json",
+    "project-overview.md",
+    "architecture.md",
+    "api-contracts.md",
+    "data-models.md",
+    "source-tree-analysis.md",
+    "component-inventory.md",
+    "development-guide.md",
+    "index.md"
+  ],
+  "current_step": "completed",
+  "resume_instructions": "Documentation completed"
+}

@@ -1,0 +1,34 @@
+import { getAuthenticatedSession } from "@/modules/identity/auth-service.js";
+import { readRoleFromCookieValue } from "@/modules/identity/session-context.js";
+import { USER_ROLES } from "@/modules/identity/user-store.js";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+import { OrderDetailClient } from "./order-detail-client";
+
+const SESSION_COOKIE = "session_token";
+const SESSION_ROLE_COOKIE = "session_role";
+
+type PageProps = {
+  params: Promise<{ orderId: string }>;
+};
+
+export default async function OrderDetailPage({ params }: PageProps) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(SESSION_COOKIE)?.value;
+  const roleValue = cookieStore.get(SESSION_ROLE_COOKIE)?.value;
+  const role = readRoleFromCookieValue(roleValue);
+  const session = await getAuthenticatedSession(token);
+
+  if (!session) {
+    redirect("/login");
+  }
+
+  if (role !== USER_ROLES.CUSTOMER || session.role !== USER_ROLES.CUSTOMER) {
+    redirect("/forbidden");
+  }
+
+  const { orderId } = await params;
+
+  return <OrderDetailClient orderId={orderId} />;
+}

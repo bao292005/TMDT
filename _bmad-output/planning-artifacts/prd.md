@@ -1,5 +1,12 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+workflowType: 'prd'
+workflow: 'edit'
+date: '2026-04-15'
+classification:
+  projectType: web_app
+  domain: fintech
+  complexity: high
+  projectContext: greenfield
 inputDocuments:
   - "/Users/nguyenquocbao/TMDT/QLUD_CSDL_nhóm-2-distillate/_index.md"
   - "/Users/nguyenquocbao/TMDT/QLUD_CSDL_nhóm-2-distillate/01-tong-quan-muc-tieu-y-nghia.md"
@@ -7,17 +14,11 @@ inputDocuments:
   - "/Users/nguyenquocbao/TMDT/QLUD_CSDL_nhóm-2-distillate/03-use-case-quan-tri-vien.md"
   - "/Users/nguyenquocbao/TMDT/QLUD_CSDL_nhóm-2-distillate/04-use-case-kho-van.md"
   - "/Users/nguyenquocbao/TMDT/QLUD_CSDL_nhóm-2-distillate/05-du-lieu-quan-he-va-nhat-quan.md"
-documentCounts:
-  briefCount: 0
-  researchCount: 0
-  brainstormingCount: 0
-  projectDocsCount: 0
-classification:
-  projectType: web_app
-  domain: fintech
-  complexity: high
-  projectContext: greenfield
-workflowType: 'prd'
+stepsCompleted: ['step-e-01-discovery', 'step-e-02-review', 'step-e-03-edit']
+lastEdited: '2026-04-15'
+editHistory:
+  - date: '2026-04-15'
+    changes: 'MVP được nâng từ trọng tâm học thuật sang dual-goal học thuật + trình bày e-commerce đầy đủ; chuẩn hóa FR/NFR và bổ sung compliance matrix fintech.'
 ---
 
 # Product Requirements Document - TMDT
@@ -46,43 +47,41 @@ Core insight là: nếu giảm được “khoảng cách nhận thức” giữ
 
 ### User Success
 
-- Người dùng có thể hoàn thành luồng thử đồ AI và nhận kết quả trực quan để hỗ trợ chọn sản phẩm/size.
-- Người dùng cảm nhận hệ thống hữu ích hơn cách xem ảnh tĩnh thông thường khi mua thời trang online.
-- Người dùng có thể nhận gợi ý sản phẩm phù hợp từ AI ở mức chấp nhận được cho mục tiêu học thuật.
-- “Aha moment” của người dùng: sau 1-2 lần thử đồ AI, họ cảm nhận rõ việc chọn size/sản phẩm chính xác hơn so với cách mua online thông thường.
+- Người dùng hoàn thành luồng mua sắm chuẩn e-commerce (duyệt sản phẩm -> PDP -> giỏ hàng -> checkout -> theo dõi đơn) mà không cần hỗ trợ thủ công.
+- Người dùng hoàn thành luồng AI try-on và nhận kết quả trực quan để hỗ trợ chọn sản phẩm/size.
+- Người dùng nhận gợi ý sản phẩm từ AI baseline có liên quan đến hành vi phiên mua hiện tại.
+- “Aha moment” của người dùng: sau 1-2 lần thử đồ AI, mức tự tin chọn size/sản phẩm tăng so với trước khi dùng try-on.
 
 ### Business Success
 
 - Chứng minh được giả thuyết nghiên cứu: AI try-on + gợi ý cá nhân hóa có tiềm năng cải thiện quyết định trước mua.
-- Tạo được bộ dữ liệu thực nghiệm và báo cáo phân tích để phục vụ môn học/đề tài.
-- Hoàn thành demo end-to-end ổn định để trình bày và đánh giá học thuật.
+- Hoàn thành demo end-to-end ổn định, có tính trình bày như một web e-commerce thông thường.
+- Tạo được bộ dữ liệu thực nghiệm và báo cáo phân tích phục vụ môn học/đề tài.
 
 ### Technical Success
 
-- Hệ thống chạy ổn định đủ cho demo: đăng nhập, duyệt sản phẩm, try-on, giỏ hàng, checkout mô phỏng, theo dõi đơn.
-- AI try-on phản hồi trong thời gian hợp lý cho môi trường nghiên cứu/lab.
-- Dữ liệu nghiệp vụ (đơn hàng, giao dịch, trạng thái) nhất quán để phục vụ phân tích.
-- Có logging cơ bản để đánh giá chất lượng kết quả thử đồ và gợi ý.
+- Hệ thống vận hành ổn định cho các luồng MVP: xác thực, catalog, PDP, try-on, giỏ hàng, checkout, thanh toán sandbox/mock, theo dõi đơn.
+- Dữ liệu nghiệp vụ đơn hàng, giao dịch và trạng thái vận hành nhất quán xuyên suốt payment -> warehouse -> shipping.
+- Có logging nghiệp vụ và logging tích hợp tối thiểu để phân tích chất lượng try-on/gợi ý và truy vết lỗi demo.
 
 ### Measurable Outcomes
 
-- Hoàn thành các kịch bản use case chính trong tài liệu (2.1 → 2.15).
-- Thu thập phản hồi người dùng thử nghiệm (nhóm nhỏ) về tính hữu ích của try-on/gợi ý.
-- So sánh định tính hoặc bán định lượng trước/sau khi dùng try-on (mức tự tin chọn size/sản phẩm).
-- Hoàn thiện báo cáo kết quả và giới hạn của mô hình.
+- 100% use case chính trong tài liệu (2.1 -> 2.15) có thể chạy demo thành công ít nhất 1 lần.
+- >= 80% người dùng thử nghiệm trong nhóm nhỏ hoàn thành luồng mua sắm chuẩn từ danh mục đến đặt đơn.
+- >= 70% người dùng thử nghiệm tự đánh giá mức tự tin chọn size/sản phẩm tăng sau khi dùng try-on.
+- Hoàn thiện báo cáo kết quả, giới hạn mô hình và đề xuất cải tiến hậu MVP.
 
 ## Product Scope
 
 ### MVP - Minimum Viable Product
 
-- Danh mục sản phẩm + biến thể size/màu + tồn kho cơ bản.
-- Giỏ hàng + checkout.
-- Thanh toán mô phỏng hoặc tích hợp mức cơ bản (phục vụ minh họa luồng).
-- AI try-on: upload ảnh, render kết quả, hiển thị cho người dùng.
-- Gợi ý sản phẩm phù hợp mức baseline.
-- Theo dõi đơn hàng.
-- Admin quản lý sản phẩm/đơn/người dùng.
-- Dashboard thống kê cơ bản phục vụ báo cáo học thuật.
+- MVP phục vụ đồng thời hai mục tiêu: nghiên cứu học thuật và trình bày sản phẩm như một web e-commerce thông thường.
+- Storefront đầy đủ: trang chủ, danh mục, tìm kiếm, lọc, PDP, trạng thái tồn kho biến thể, giỏ hàng, checkout và theo dõi đơn.
+- Thanh toán sandbox/mock với xử lý callback, trạng thái pending và cơ chế retry thanh toán.
+- AI try-on: upload ảnh, render kết quả, hiển thị kết quả và cho phép thử lại khi lỗi.
+- Gợi ý sản phẩm baseline theo ngữ cảnh phiên mua.
+- Quản trị vận hành: Admin quản lý sản phẩm/đơn/người dùng, Warehouse xử lý đơn và tạo vận đơn.
+- Dashboard KPI cơ bản phục vụ cả demo trình bày và báo cáo học thuật.
 
 ### Growth Features (Post-MVP)
 
@@ -132,7 +131,7 @@ Các lỗi và phương án phục hồi gồm: API vận chuyển timeout/lỗi
 
 ### Journey Requirements Summary
 
-- Customer-facing: tìm kiếm/lọc sản phẩm, chi tiết sản phẩm, AI try-on, gợi ý cá nhân hóa, giỏ hàng, checkout, thanh toán đa phương thức, theo dõi đơn/giao dịch.
+- Customer-facing: storefront hoàn chỉnh gồm home, danh mục, tìm kiếm/lọc, PDP, AI try-on, gợi ý sản phẩm, giỏ hàng, checkout, thanh toán và theo dõi đơn.
 - Order lifecycle control: state machine đơn hàng rõ ràng, xử lý edge case thanh toán, đối soát callback, retry có kiểm soát.
 - Admin operations: quản lý sản phẩm/đơn/người dùng, dashboard KPI, audit log, soft delete, cảnh báo nghiệp vụ.
 - Warehouse operations: hàng đợi đơn FIFO, đóng gói, tạo vận đơn, tracking sync, xử lý lỗi vận chuyển.
@@ -142,12 +141,21 @@ Các lỗi và phương án phục hồi gồm: API vận chuyển timeout/lỗi
 
 ### Compliance & Regulatory
 - Phạm vi triển khai phục vụ học tập/nghiên cứu; không yêu cầu chứng nhận tuân thủ production ở giai đoạn hiện tại.
-- Không xử lý dữ liệu thẻ thanh toán thật trong môi trường production; ưu tiên sandbox/test mode hoặc mock.
+- Không xử lý dữ liệu thẻ thanh toán thật trong môi trường production; toàn bộ luồng thanh toán chạy ở sandbox/test mode hoặc mock.
 - Chưa triển khai KYC/AML production; chỉ mô tả luồng và điểm mở rộng kiến trúc.
 - Áp dụng nguyên tắc lưu trữ dữ liệu tối thiểu và bảo vệ dữ liệu nhạy cảm trong phạm vi đề tài.
 
+### Fintech Compliance Matrix (MVP)
+| Control Area | MVP Requirement | Verification Method |
+|--------------|-----------------|---------------------|
+| Payment Data Safety | Không lưu PAN/CVV; chỉ lưu mã giao dịch và trạng thái thanh toán | Rà soát schema và log dữ liệu sau mỗi sprint |
+| Access Control | RBAC bắt buộc cho Customer/Admin/Warehouse ở tất cả API nghiệp vụ | Chạy test phân quyền và kiểm tra truy cập trái vai trò |
+| Auditability | Ghi audit log cho hành động quản trị quan trọng và thay đổi trạng thái đơn | Đối chiếu audit log theo 3 kịch bản kiểm thử chuẩn |
+| Reconciliation | Có job/manual flow đối soát trạng thái payment callback và trạng thái đơn | Chạy kịch bản timeout/callback trễ và xác nhận kết quả reconcile |
+| Sandbox Isolation | Endpoint production bị tắt mặc định trong môi trường demo/học thuật | Kiểm tra biến môi trường và cấu hình deploy trước demo |
+
 ### Technical Constraints
-- Bắt buộc xác thực và phân quyền theo vai trò (Customer/Admin/Warehouse), mật khẩu băm bcrypt, session/JWT.
+- Bắt buộc xác thực và phân quyền theo vai trò (Customer/Admin/Warehouse), mật khẩu băm an toàn, session/JWT.
 - Bắt buộc audit log cho thao tác quản trị quan trọng (khóa user, đổi trạng thái đơn, cập nhật dữ liệu nhạy cảm).
 - Bắt buộc timeout/retry cho các tích hợp ngoài (AI try-on, payment callback, shipping API).
 - Bắt buộc tính nhất quán trạng thái đơn xuyên suốt payment -> warehouse -> shipping.
@@ -156,6 +164,11 @@ Các lỗi và phương án phục hồi gồm: API vận chuyển timeout/lỗi
 - Payment tích hợp ở chế độ sandbox/test hoặc mock để đảm bảo an toàn khi demo.
 - Shipping API dùng test mode và có cơ chế fallback trạng thái cache khi dịch vụ ngoài lỗi.
 - AI try-on dùng service nội bộ hoặc endpoint mô phỏng có SLA mềm phù hợp môi trường học thuật.
+
+### Fraud Prevention (MVP Scope)
+- Phát hiện giao dịch bất thường ở mức rule-based tối thiểu: nhiều lần thanh toán thất bại liên tiếp trong 1 phiên hoặc 1 tài khoản.
+- Gắn cờ đơn hàng cần rà soát thủ công khi có lệch trạng thái payment/order kéo dài quá ngưỡng vận hành.
+- Yêu cầu audit trail đầy đủ cho mọi thao tác override trạng thái đơn hàng bởi Admin.
 
 ### Risk Mitigations
 - Rủi ro lệch trạng thái thanh toán: có cơ chế reconcile/đối soát định kỳ.
@@ -296,7 +309,7 @@ Sản phẩm được triển khai dưới dạng SPA cho trải nghiệm liền
 ### Khám phá sản phẩm và thông tin catalog
 - FR7: Khách hàng có thể duyệt danh sách sản phẩm theo danh mục.
 - FR8: Khách hàng có thể tìm kiếm sản phẩm theo từ khóa.
-- FR9: Khách hàng có thể lọc sản phẩm theo tối thiểu các thuộc tính danh mục, khoảng giá, size và màu.
+- FR9: Khách hàng có thể lọc sản phẩm theo ít nhất 4 nhóm thuộc tính: danh mục, khoảng giá, size và màu.
 - FR10: Khách hàng có thể xem chi tiết sản phẩm và biến thể.
 - FR11: Hệ thống có thể hiển thị trạng thái còn hàng của biến thể sản phẩm.
 - FR12: Hệ thống có thể cung cấp nội dung sản phẩm theo cách hỗ trợ khả năng index SEO cho các trang public.
@@ -306,7 +319,7 @@ Sản phẩm được triển khai dưới dạng SPA cho trải nghiệm liền
 - FR14: Hệ thống có thể tạo và hiển thị kết quả thử đồ AI cho khách hàng.
 - FR15: Khách hàng có thể thực hiện lại thao tác thử đồ khi lần xử lý trước không thành công.
 - FR16: Hệ thống có thể lưu kết quả thử đồ của phiên mua hiện tại để hỗ trợ ra quyết định.
-- FR17: Hệ thống có thể hiển thị tối thiểu 5 gợi ý sản phẩm theo danh mục đã xem, lịch sử thử đồ hoặc sản phẩm trong giỏ hàng của người dùng.
+- FR17: Hệ thống có thể hiển thị tối thiểu 5 gợi ý sản phẩm có liên quan đến ít nhất 1 trong 3 tín hiệu: danh mục đã xem, lịch sử thử đồ hoặc sản phẩm trong giỏ hàng của người dùng.
 - FR18: Hệ thống có thể cung cấp cơ chế gợi ý baseline khi mô-đun cá nhân hóa nâng cao chưa khả dụng.
 
 ### Giỏ hàng và checkout
@@ -340,12 +353,12 @@ Sản phẩm được triển khai dưới dạng SPA cho trải nghiệm liền
 - FR40: Admin có thể tạo, cập nhật và ngừng kích hoạt sản phẩm.
 - FR41: Admin có thể quản lý trạng thái đơn hàng theo vòng đời vận hành.
 - FR42: Admin có thể xem và xử lý các trường hợp đơn hàng bất thường.
-- FR43: Admin có thể xem dashboard gồm tối thiểu 5 KPI: số đơn, doanh thu, AOV, tỷ lệ hoàn trả và tỷ lệ thanh toán thành công theo bộ lọc thời gian.
-- FR44: Admin có thể xuất báo cáo doanh thu, đơn hàng và giao dịch theo khoảng thời gian dưới định dạng CSV và PDF.
+- FR43: Admin có thể xem dashboard gồm tối thiểu 5 KPI: số đơn, doanh thu, AOV, tỷ lệ hoàn trả và tỷ lệ thanh toán thành công; dashboard hỗ trợ ít nhất 3 bộ lọc thời gian: ngày, tuần và tháng.
+- FR44: Admin có thể xuất báo cáo doanh thu, đơn hàng và giao dịch theo khoảng thời gian dưới định dạng CSV và PDF; mỗi lần xuất phải hoàn tất trong <= 30 giây với tập dữ liệu tối đa 10.000 bản ghi.
 - FR45: Hệ thống có thể ghi nhận log nghiệp vụ chính phục vụ truy vết và đánh giá thực nghiệm.
 
 ### Tích hợp và độ tin cậy nghiệp vụ
-- FR46: Hệ thống có thể chuyển đổi giữa endpoint sandbox/mock và endpoint thật cho AI, payment, shipping thông qua cấu hình môi trường mà không thay đổi luồng nghiệp vụ chính.
+- FR46: Hệ thống có thể chuyển đổi độc lập endpoint sandbox/mock và endpoint production cho 3 tích hợp AI, payment, shipping thông qua cấu hình môi trường mà không thay đổi luồng nghiệp vụ chính.
 - FR47: Hệ thống có thể xử lý timeout/retry cho các tác vụ tích hợp quan trọng.
 - FR48: Hệ thống có thể đối soát trạng thái đơn hàng giữa các phân hệ payment, warehouse, shipping.
 - FR49: Hệ thống có thể duy trì tính nhất quán dữ liệu đơn hàng và giao dịch trong các luồng chính.
@@ -354,31 +367,31 @@ Sản phẩm được triển khai dưới dạng SPA cho trải nghiệm liền
 ## Non-Functional Requirements
 
 ### Performance
-- NFR1: 95% yêu cầu duyệt danh mục, tìm kiếm và mở chi tiết sản phẩm phải phản hồi trong <= 2 giây, đo bằng log APM trong điều kiện tải thường.
+- NFR1: 95% yêu cầu duyệt danh mục, tìm kiếm và mở chi tiết sản phẩm phải phản hồi trong <= 2 giây dưới tải đồng thời 100 người dùng, đo bằng APM log.
 - NFR2: 95% phiên checkout phải hoàn tất từ bước xác nhận giỏ đến tạo đơn trong <= 90 giây, đo bằng event timestamp theo phiên.
-- NFR3: Luồng AI try-on phải trả kết quả hoặc timeout có thông báo trong <= 30 giây cho mỗi yêu cầu, đo bằng thời gian xử lý backend.
-- NFR4: Trạng thái đơn hàng trên trang theo dõi phải được đồng bộ trong <= 10 giây kể từ khi backend đổi trạng thái; khi realtime lỗi phải fallback polling chu kỳ 15 giây.
+- NFR3: 95% yêu cầu AI try-on phải trả kết quả hoặc timeout có thông báo trong <= 30 giây, đo bằng thời gian xử lý backend.
+- NFR4: Trạng thái đơn hàng trên trang theo dõi phải đồng bộ trong <= 10 giây kể từ khi backend đổi trạng thái; khi realtime lỗi phải fallback polling chu kỳ 15 giây, đo bằng log timestamp frontend/backend.
 
 ### Security
-- NFR5: Dữ liệu xác thực người dùng phải được bảo vệ bằng cơ chế băm mật khẩu an toàn.
-- NFR6: Hệ thống phải thực thi phân quyền truy cập theo vai trò (Customer/Admin/Warehouse).
-- NFR7: Hệ thống phải ghi audit log cho các thao tác quản trị quan trọng.
-- NFR8: Dữ liệu nhạy cảm và dữ liệu ảnh try-on phải được kiểm soát truy cập theo nguyên tắc tối thiểu cần thiết.
-- NFR9: Tích hợp thanh toán trong phạm vi đề tài phải sử dụng sandbox/mock để tránh rủi ro dữ liệu tài chính thật.
+- NFR5: 100% mật khẩu người dùng phải được băm trước khi lưu bằng thuật toán băm một chiều có salt; xác minh bằng kiểm tra dữ liệu DB và test xác thực.
+- NFR6: 100% API nghiệp vụ phải áp dụng RBAC theo vai trò Customer/Admin/Warehouse; xác minh bằng test truy cập trái quyền cho từng vai trò.
+- NFR7: 100% thao tác quản trị quan trọng (khóa user, đổi trạng thái đơn, cập nhật dữ liệu nhạy cảm) phải tạo audit log trong <= 5 giây, xác minh bằng kiểm tra log integration test.
+- NFR8: 100% tài nguyên dữ liệu nhạy cảm và ảnh try-on phải yêu cầu xác thực + kiểm tra quyền truy cập; xác minh bằng test truy cập trái phép.
+- NFR9: 100% luồng thanh toán trong môi trường học thuật phải dùng sandbox/mock endpoint; xác minh bằng cấu hình môi trường và smoke test trước demo.
 
 ### Reliability
-- NFR10: Hệ thống phải duy trì tính nhất quán trạng thái đơn hàng giữa các phân hệ thanh toán, kho vận và vận chuyển.
-- NFR11: Các tích hợp ngoài (AI, payment, shipping) phải có cơ chế retry có kiểm soát.
-- NFR12: Khi tích hợp ngoài lỗi, hệ thống phải có fallback để không phá vỡ luồng demo end-to-end.
-- NFR13: Hệ thống phải hỗ trợ cơ chế đối soát định kỳ cho trạng thái thanh toán/đơn hàng khi callback bị trễ hoặc lệch.
+- NFR10: 100% đơn hàng phải giữ trạng thái hợp lệ theo state machine xuyên suốt payment -> warehouse -> shipping; xác minh bằng test vòng đời đơn hàng.
+- NFR11: Các tích hợp AI/payment/shipping phải retry tối đa 3 lần với backoff tăng dần khi lỗi tạm thời; xác minh bằng test mô phỏng timeout.
+- NFR12: Khi tích hợp ngoài lỗi, hệ thống phải kích hoạt fallback trong <= 5 giây để không phá vỡ luồng demo end-to-end; xác minh bằng kịch bản chaos test mức chức năng.
+- NFR13: Hệ thống phải chạy đối soát trạng thái payment/order tối thiểu mỗi 15 phút và ghi log kết quả; xác minh bằng lịch job và reconciliation report.
 
 ### Accessibility
-- NFR14: Các tác vụ chính phải thao tác được bằng bàn phím.
-- NFR15: Form quan trọng (đăng nhập, checkout) phải có label và thông báo lỗi dễ hiểu.
-- NFR16: Thành phần tương tác phải có trạng thái focus/disabled/loading rõ ràng.
-- NFR17: Giao diện phải đảm bảo khả năng đọc cơ bản (độ tương phản và cấu trúc semantic).
+- NFR14: 100% tác vụ chính (duyệt sản phẩm, thêm giỏ, checkout, theo dõi đơn) phải thao tác được bằng bàn phím; xác minh bằng checklist kiểm thử thủ công.
+- NFR15: 100% form quan trọng (đăng nhập, checkout) phải có label và thông báo lỗi rõ nghĩa; xác minh bằng test UI và review semantic.
+- NFR16: 100% thành phần tương tác phải có trạng thái focus/disabled/loading rõ ràng; xác minh bằng test UI theo component checklist.
+- NFR17: Giao diện phải đạt tỷ lệ tương phản tối thiểu WCAG AA cho văn bản chính và dùng semantic HTML cho layout/form; xác minh bằng tool kiểm tra a11y và manual review.
 
 ### Integration
-- NFR18: Hệ thống phải hỗ trợ tích hợp AI service, payment service và shipping service qua giao tiếp API ổn định trong môi trường học thuật.
-- NFR19: Hệ thống phải chuẩn hóa xử lý lỗi tích hợp theo một mẫu nhất quán để dễ vận hành và debug.
-- NFR20: Hệ thống phải cho phép thay thế endpoint thật bằng mock endpoint mà không làm thay đổi hành vi nghiệp vụ chính.
+- NFR18: Tích hợp AI, payment, shipping phải đạt tỷ lệ gọi API thành công >= 99% trong bộ test tích hợp chuẩn của dự án; đo bằng báo cáo integration test.
+- NFR19: 100% lỗi tích hợp phải theo một schema lỗi thống nhất (mã lỗi, nguồn lỗi, thông điệp, correlation id); xác minh bằng contract test.
+- NFR20: Hệ thống phải cho phép chuyển đổi endpoint thật/mock qua cấu hình môi trường trong <= 5 phút mà không sửa mã nguồn nghiệp vụ; xác minh bằng quy trình deploy test.

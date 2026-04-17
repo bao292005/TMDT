@@ -1,9 +1,9 @@
-# generated: 2026-04-10T00:00:00Z
-# last_updated: 2026-04-10T15:00:00Z
+# generated: 2026-04-15T13:02:23Z
+# last_updated: 2026-04-15T14:30:00Z
 # project: TMDT
 # project_key: NOKEY
 # tracking_system: file-system
-# story_location: {project-root}/_bmad-output/implementation-artifacts
+# story_location: /Users/nguyenquocbao/TMDT/_bmad-output/implementation-artifacts
 
 # STATUS DEFINITIONS:
 # ==================
@@ -34,8 +34,8 @@
 # - SM typically creates next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
-generated: 2026-04-10T00:00:00Z
-last_updated: 2026-04-13T11:30:00Z
+generated: 2026-04-15T13:02:23Z
+last_updated: 2026-04-16T01:05:00Z
 project: TMDT
 project_key: NOKEY
 tracking_system: file-system
@@ -66,26 +66,48 @@ development_status:
   4-1-quan-ly-gio-hang-va-kiem-tra-hop-le: done
   4-2-checkout-dia-chi-van-chuyen-va-tong-tien: done
   4-3-tao-don-hang-va-thanh-toan-online-cod: done
-  4-4-xu-ly-callback-payment-trang-thai-pending-va-retry: review
-  4-5-paymentstatustimeline-cho-post-checkout-clarity: backlog
+  4-4-xu-ly-callback-payment-trang-thai-pending-va-retry: done
+  4-5-paymentstatustimeline-cho-post-checkout-clarity: done
   epic-4-retrospective: optional
 
-  epic-5: backlog
-  5-1-khach-hang-xem-danh-sach-va-chi-tiet-don-hang: backlog
-  5-2-theo-doi-trang-thai-don-va-tracking-number: backlog
-  5-3-warehouse-queue-xu-ly-dong-goi-va-tao-van-don: backlog
-  5-4-fallback-trang-thai-van-chuyen-khi-tich-hop-loi: backlog
+  epic-5: in-progress
+  5-1-khach-hang-xem-danh-sach-va-chi-tiet-don-hang: done
+  5-2-theo-doi-trang-thai-don-va-tracking-number: done
+  5-3-warehouse-queue-xu-ly-dong-goi-va-tao-van-don: done
+  5-4-fallback-trang-thai-van-chuyen-khi-tich-hop-loi: done
   epic-5-retrospective: optional
 
-  epic-6: backlog
-  6-1-quan-ly-san-pham-va-vong-doi-trang-thai-don: backlog
-  6-2-xu-ly-don-bat-thuong-va-bang-kpi-van-hanh: backlog
-  6-3-xuat-bao-cao-va-log-truy-vet-nghiep-vu: backlog
+  epic-6: in-progress
+  6-1-quan-ly-san-pham-va-vong-doi-trang-thai-don: done
+  6-2-xu-ly-don-bat-thuong-va-bang-kpi-van-hanh: done
+  6-3-xuat-bao-cao-va-log-truy-vet-nghiep-vu: done
   epic-6-retrospective: optional
 
-  epic-7: backlog
-  7-1-cau-hinh-endpoint-sandbox-mock-real-theo-moi-truong: backlog
-  7-2-timeout-retry-va-chuan-hoa-loi-tich-hop: backlog
-  7-3-reconciliation-trang-thai-payment-warehouse-shipping: backlog
-  7-4-fallback-dam-bao-demo-end-to-end-lien-tuc: backlog
+  epic-7: in-progress
+  7-1-chuyen-profile-tich-hop-ai-payment-shipping-bang-cau-hinh-moi-truong: done
+  7-2-chuan-hoa-timeout-retry-error-taxonomy-cho-tich-hop-ngoai: done
+  7-3-doi-soat-dinh-ky-trang-thai-payment-warehouse-shipping: done
+  7-4-fallback-van-hanh-de-giu-luong-end-to-end-lien-tuc: done
   epic-7-retrospective: optional
+
+  epic-8: in-progress
+  8-1-chuan-hoa-visual-system-va-hierarchy-cho-toan-bo-man-hinh-chinh: in-progress
+  8-2-hoan-thien-responsive-va-accessibility-cho-luong-mua-hang-trong-yeu: ready-for-dev
+  8-3-chuan-hoa-timeline-trang-thai-payment-tracking-va-recovery-actions: ready-for-dev
+  8-4-thiet-lap-quality-gate-trinh-bay-truoc-moc-demo: ready-for-dev
+  epic-8-retrospective: optional
+
+  epic-9: in-progress
+  9-1-chuan-hoa-schema-quan-he-cho-order-payment-shipment-audit: done
+  9-2-baseline-migration-va-seed-du-lieu-phuc-vu-demo-reporting: review
+  9-3-chuan-hoa-audit-trail-va-truy-vet-theo-correlation-context: ready-for-dev
+  9-4-chuan-hoa-du-lieu-xuat-bao-cao-van-hanh-va-tai-chinh: ready-for-dev
+  epic-9-retrospective: optional
+
+  epic-10: backlog
+  10-1-nang-cap-epic-1-auth-profile-theo-chuan-measurable-va-presentation-ready: backlog
+  10-2-nang-cap-epic-2-catalog-pdp-cho-trai-nghiem-duyet-mua-day-du: backlog
+  10-3-nang-cap-epic-3-try-on-recommendation-theo-chuan-quyet-dinh-mua: backlog
+  10-4-nang-cap-epic-4-cart-checkout-payment-de-giam-mo-ho-post-checkout: backlog
+  10-5-nang-cap-epic-5-order-tracking-warehouse-shipping-cho-minh-bach-van-hanh: backlog
+  epic-10-retrospective: optional

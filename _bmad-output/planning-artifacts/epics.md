@@ -210,9 +210,21 @@ Khách hàng theo dõi đơn; kho vận xử lý hàng đợi, đóng gói, tạ
 Admin quản lý sản phẩm/đơn bất thường và theo dõi KPI/báo cáo phục vụ vận hành + nghiên cứu.
 **FRs covered:** FR40, FR41, FR42, FR43, FR44, FR45
 
-### Epic 7: Độ bền tích hợp và khả năng chuyển môi trường
-Hệ thống vận hành ổn định qua sandbox/mock/real với timeout-retry-reconcile-fallback xuyên phân hệ.
+### Epic 7: Độ bền tích hợp và kiểm soát môi trường demo/production
+Hệ thống vận hành ổn định qua sandbox/mock/real với timeout-retry-reconcile-fallback xuyên phân hệ, bảo đảm luồng end-to-end không đứt khi demo hoặc vận hành.
 **FRs covered:** FR46, FR47, FR48, FR49, FR50
+
+### Epic 8: Presentation-Ready UX cho customer/admin/warehouse
+Chuẩn hóa giao diện theo mức trình bày e-commerce đầy đủ: nhất quán, dễ dùng, responsive, accessible, và rõ trạng thái xử lý trên toàn bộ journey.
+**Coverage:** Cross-cutting NFR14-NFR17, NFR20 và UX-DR1-UX-DR20 (không thay đổi ownership FR của Epic 1-7)
+
+### Epic 9: Data Foundation, Auditability và Reporting Readiness
+Củng cố mô hình dữ liệu, migration/persistence, khả năng đối soát và truy vết để phục vụ cả vận hành thực tế lẫn báo cáo/trình bày.
+**Coverage:** Cross-cutting cho Epic 4/5/6/7 (data consistency, reporting, reconciliation, auditability)
+
+### Epic 10: Nâng cấp Epic 1-5 theo PRD mới (MVP Presentation Upgrade)
+Nâng chất lượng các phần đã triển khai của Epic 1-5 để đạt chuẩn web e-commerce thông thường theo PRD mới, giữ nguyên ownership FR gốc.
+**Coverage:** Gap remediation cho FR1-FR39 + NFR1-NFR4 + NFR14-NFR17
 
 ## Epic 1: Tài khoản và truy cập an toàn theo vai trò
 
@@ -330,6 +342,8 @@ So that tôi có đủ thông tin để quyết định mua.
 ## Epic 3: Tăng tự tin quyết định mua bằng AI try-on
 
 Khách hàng thử đồ AI, retry khi lỗi, lưu kết quả phiên và nhận gợi ý sản phẩm phù hợp.
+
+> Note (deferred hardening): Epic 3 hiện đạt mức demo/baseline cho luồng try-on. Các hạng mục production-hardening (AI provider thật, persistence bền vững cho try-on session/snapshot qua restart và scale multi-instance, observability sâu cho AI pipeline) sẽ được đưa vào backlog hoàn thiện sau.
 
 ### Story 3.1: Upload ảnh và xử lý AI try-on
 
@@ -480,12 +494,15 @@ As a khách hàng,
 I want truy cập lịch sử đơn và chi tiết đơn,
 So that tôi theo dõi được tiến trình mua sắm của mình.
 
+**FRs implemented:** FR32
+
 **Acceptance Criteria:**
 
 **Given** khách hàng đã đăng nhập
-**When** khách hàng mở trang đơn hàng
-**Then** hệ thống hiển thị danh sách đơn và chi tiết từng đơn đúng quyền truy cập
-**And** dữ liệu đơn có trạng thái nhất quán với backend order state machine.
+**When** khách hàng mở trang `/orders` và `/orders/[orderId]`
+**Then** hệ thống hiển thị danh sách + chi tiết đơn đúng quyền truy cập và đúng ownership
+**And** màn hình có đủ trạng thái loading/empty/error với recovery CTA rõ ràng
+**And** mobile dùng layout card, desktop có bảng/timeline rõ thứ bậc thông tin.
 
 ### Story 5.2: Theo dõi trạng thái đơn và tracking number
 
@@ -493,12 +510,15 @@ As a khách hàng,
 I want thấy trạng thái xử lý và mã tracking,
 So that tôi biết đơn đang ở đâu trong quá trình giao nhận.
 
+**FRs implemented:** FR33, FR34
+
 **Acceptance Criteria:**
 
 **Given** đơn đã được xử lý ở kho hoặc đơn vị vận chuyển
 **When** thông tin tracking được cập nhật
-**Then** trang tracking hiển thị trạng thái mới trong SLA đồng bộ theo NFR
-**And** fallback polling hoạt động khi realtime channel không ổn định.
+**Then** trang tracking hiển thị timeline trạng thái có label, timestamp, next action theo UX-DR4
+**And** SLA đồng bộ trạng thái tuân thủ NFR4 (realtime hoặc fallback polling 15 giây)
+**And** thông tin trạng thái không phụ thuộc chỉ vào màu sắc.
 
 ### Story 5.3: Warehouse queue xử lý đóng gói và tạo vận đơn
 
@@ -506,12 +526,15 @@ As a nhân viên kho,
 I want xử lý đơn theo hàng đợi và tạo vận đơn,
 So that đơn được bàn giao nhanh và đúng quy trình.
 
+**FRs implemented:** FR35, FR36, FR37
+
 **Acceptance Criteria:**
 
 **Given** có đơn đủ điều kiện xử lý tại kho
-**When** nhân viên kho pick/pack và gửi yêu cầu vận chuyển
-**Then** hệ thống cập nhật trạng thái đơn theo các bước kho vận chuẩn
-**And** lưu lại tracking number khi tạo vận đơn thành công.
+**When** nhân viên kho thao tác qua `OperatorQueueBoard`
+**Then** hệ thống hỗ trợ pick/pack/create-shipment theo hàng đợi ưu tiên task-first
+**And** mỗi thao tác cập nhật trạng thái đơn hợp lệ theo state machine + ghi audit log
+**And** lưu tracking number ngay khi tạo vận đơn thành công.
 
 ### Story 5.4: Fallback trạng thái vận chuyển khi tích hợp lỗi
 
@@ -519,11 +542,14 @@ As a hệ thống vận hành,
 I want có cơ chế dự phòng khi shipping API gián đoạn,
 So that tracking không bị mất và luồng demo vẫn hoạt động.
 
+**FRs implemented:** FR38, FR39
+
 **Acceptance Criteria:**
 
 **Given** tích hợp vận chuyển lỗi hoặc timeout
 **When** hệ thống không lấy được trạng thái mới từ provider
-**Then** hệ thống giữ trạng thái ổn định với cờ cảnh báo và retry theo policy
+**Then** hệ thống giữ trạng thái gần nhất an toàn, bật cờ degraded và retry theo policy
+**And** UI hiển thị `RecoveryActionBanner` với thông điệp + hành động tiếp theo cho customer/admin
 **And** không làm hỏng tiến trình theo dõi đơn của khách hàng.
 
 ## Epic 6: Vận hành quản trị và báo cáo
@@ -536,12 +562,15 @@ As a admin,
 I want tạo/cập nhật/ngừng kích hoạt sản phẩm và quản lý trạng thái đơn,
 So that vận hành catalog và order lifecycle ổn định.
 
+**FRs implemented:** FR40, FR41
+
 **Acceptance Criteria:**
 
 **Given** admin có quyền truy cập khu vực quản trị
 **When** admin chỉnh sửa sản phẩm hoặc cập nhật trạng thái đơn
 **Then** hệ thống lưu thay đổi hợp lệ theo business rules
-**And** chặn các chuyển trạng thái đơn không hợp lệ.
+**And** chặn các chuyển trạng thái đơn không hợp lệ
+**And** màn hình admin có confirm/destructive pattern nhất quán cho thao tác nhạy cảm.
 
 ### Story 6.2: Xử lý đơn bất thường và bảng KPI vận hành
 
@@ -549,12 +578,15 @@ As a admin,
 I want theo dõi đơn bất thường và dashboard KPI,
 So that tôi phát hiện sớm vấn đề vận hành.
 
+**FRs implemented:** FR42, FR43
+
 **Acceptance Criteria:**
 
 **Given** dữ liệu đơn/giao dịch đã phát sinh
 **When** admin mở dashboard và danh sách ngoại lệ
 **Then** hệ thống hiển thị tối thiểu 5 KPI theo bộ lọc thời gian
-**And** cung cấp danh sách đơn bất thường để xử lý có ưu tiên.
+**And** có danh sách đơn bất thường theo mức ưu tiên + trạng thái xử lý
+**And** dashboard có loading/empty/error state rõ, hỗ trợ keyboard navigation.
 
 ### Story 6.3: Xuất báo cáo và log truy vết nghiệp vụ
 
@@ -562,68 +594,303 @@ As a admin,
 I want xuất báo cáo CSV/PDF và tra cứu log,
 So that tôi có dữ liệu phục vụ phân tích và đối soát.
 
+**FRs implemented:** FR44, FR45
+
 **Acceptance Criteria:**
 
 **Given** admin chọn khoảng thời gian báo cáo
 **When** admin thực hiện xuất dữ liệu
 **Then** hệ thống tạo báo cáo doanh thu/đơn/giao dịch theo định dạng yêu cầu
+**And** cung cấp màn hình lịch sử export (đang xử lý/thành công/thất bại)
 **And** log nghiệp vụ chính có thể truy vết theo correlation context.
 
-## Epic 7: Độ bền tích hợp và khả năng chuyển môi trường
+## Epic 7: Độ bền tích hợp và kiểm soát môi trường demo/production
 
-Hệ thống vận hành ổn định qua sandbox/mock/real với timeout-retry-reconcile-fallback xuyên phân hệ.
+Hệ thống vận hành ổn định qua sandbox/mock/real với timeout-retry-reconcile-fallback xuyên phân hệ, bảo đảm luồng end-to-end không đứt khi demo hoặc vận hành.
 
-### Story 7.1: Cấu hình endpoint sandbox/mock/real theo môi trường
+### Story 7.1: Chuyển profile tích hợp AI/payment/shipping bằng cấu hình môi trường
 
 As a kỹ sư triển khai,
-I want chuyển endpoint tích hợp bằng config,
-So that luồng nghiệp vụ không phải sửa code khi đổi môi trường.
+I want chuyển profile endpoint theo môi trường mà không sửa luồng nghiệp vụ,
+So that tôi có thể demo sandbox và vận hành production nhất quán.
+
+**FRs implemented:** FR46
 
 **Acceptance Criteria:**
 
-**Given** hệ thống chạy ở các môi trường khác nhau
-**When** cấu hình endpoint AI/payment/shipping thay đổi
-**Then** ứng dụng sử dụng đúng endpoint theo môi trường
-**And** không thay đổi contract nghiệp vụ ở layer service.
+**Given** hệ thống có profile sandbox/mock/production cho AI, payment, shipping
+**When** cấu hình môi trường được thay đổi và service khởi tạo lại
+**Then** hệ thống dùng đúng endpoint tương ứng cho từng tích hợp
+**And** contract request/response của các service không đổi giữa các profile
+**And** endpoint profile hiện tại được hiển thị qua health/config endpoint để tránh cấu hình nhầm.
 
-### Story 7.2: Timeout, retry và chuẩn hóa lỗi tích hợp
+### Story 7.2: Chuẩn hóa timeout-retry-error taxonomy cho tích hợp ngoài
 
 As a hệ thống tích hợp,
-I want có policy timeout/retry và error schema nhất quán,
-So that giảm lỗi gián đoạn và dễ debug vận hành.
+I want có policy timeout/retry và mã lỗi thống nhất,
+So that lỗi tích hợp được xử lý an toàn và dễ truy vết.
+
+**FRs implemented:** FR47
 
 **Acceptance Criteria:**
 
 **Given** provider ngoài phản hồi chậm hoặc lỗi tạm thời
 **When** request tích hợp được thực thi
-**Then** hệ thống áp policy timeout/retry theo cấu hình
-**And** trả lỗi theo format chuẩn có correlationId để truy vết.
+**Then** hệ thống áp timeout và retry theo policy cấu hình cho từng provider
+**And** lỗi trả ra theo schema chuẩn có error code, message và correlationId
+**And** phân loại lỗi retryable/non-retryable được phản ánh nhất quán ở API và UI.
 
-### Story 7.3: Reconciliation trạng thái payment-warehouse-shipping
+### Story 7.3: Đối soát định kỳ trạng thái payment-warehouse-shipping
 
 As a hệ thống vận hành,
-I want đối soát trạng thái liên phân hệ định kỳ,
-So that dữ liệu order và transaction luôn nhất quán.
+I want có job reconciliation liên phân hệ,
+So that trạng thái đơn và giao dịch luôn đồng bộ sau callback trễ/lệch.
+
+**FRs implemented:** FR48, FR49
 
 **Acceptance Criteria:**
 
-**Given** có khả năng lệch trạng thái do callback trễ hoặc lỗi mạng
-**When** job reconciliation chạy
-**Then** hệ thống phát hiện sai lệch và cập nhật theo policy đã định
-**And** ghi nhận kết quả đối soát để audit và theo dõi.
+**Given** có khả năng lệch trạng thái do callback trễ, timeout hoặc race condition
+**When** job reconciliation chạy theo lịch
+**Then** hệ thống phát hiện mismatch và áp policy cập nhật trạng thái đã định
+**And** ghi nhận kết quả đối soát để audit, bao gồm before/after state và correlation context
+**And** cung cấp summary mismatch theo chu kỳ để admin theo dõi xử lý.
 
-### Story 7.4: Fallback đảm bảo demo end-to-end liên tục
+### Story 7.4: Fallback vận hành để giữ luồng end-to-end liên tục
 
 As a nhóm dự án,
-I want cơ chế fallback cho luồng core khi provider gián đoạn,
-So that vẫn trình diễn được hành trình end-to-end ổn định.
+I want fallback an toàn cho luồng core khi provider gián đoạn,
+So that demo và trải nghiệm người dùng không bị dừng toàn bộ.
+
+**FRs implemented:** FR50
 
 **Acceptance Criteria:**
 
 **Given** một hoặc nhiều tích hợp ngoài không khả dụng
-**When** người dùng thực hiện luồng chính từ khám phá đến theo dõi đơn
-**Then** hệ thống kích hoạt fallback tương ứng mà không dừng toàn bộ hành trình
-**And** thông báo trạng thái rõ ràng cho người dùng và vận hành.
+**When** người dùng thực hiện luồng chính từ catalog đến tracking
+**Then** hệ thống kích hoạt fallback tương ứng mà vẫn giữ được tiến trình nghiệp vụ hợp lệ
+**And** người dùng nhận thông báo trạng thái và next action rõ ràng
+**And** mọi lần kích hoạt fallback đều được ghi nhận event/log phục vụ hậu kiểm.
+
+## Epic 8: Presentation-Ready UX cho customer/admin/warehouse
+
+Chuẩn hóa giao diện theo mức trình bày e-commerce đầy đủ: nhất quán, dễ dùng, responsive, accessible, và rõ trạng thái xử lý trên toàn bộ journey.
+
+### Story 8.1: Chuẩn hóa visual system và hierarchy cho toàn bộ màn hình chính
+
+As a người dùng cuối,
+I want giao diện có thứ bậc trực quan nhất quán giữa các khu vực,
+So that tôi thao tác nhanh và hiểu trạng thái trang ngay lập tức.
+
+**NFR/UX coverage:** NFR16, NFR17, UX-DR1, UX-DR5, UX-DR6
+
+**Acceptance Criteria:**
+
+**Given** các màn hình customer/admin/warehouse hiện có
+**When** áp dụng visual system chuẩn cho typography, spacing, button hierarchy và feedback styles
+**Then** các màn hình thể hiện hierarchy primary/secondary/destructive nhất quán
+**And** pattern loading/empty/error/info dùng chung một taxonomy trình bày
+**And** guideline sử dụng component được ghi rõ để tránh lệch style giữa các feature.
+
+### Story 8.2: Hoàn thiện responsive và accessibility cho luồng mua hàng trọng yếu
+
+As a khách hàng,
+I want hoàn tất luồng mua hàng mượt trên mobile và desktop,
+So that trải nghiệm trình bày đạt chuẩn web e-commerce thông thường.
+
+**NFR/UX coverage:** NFR14, NFR15, NFR17, UX-DR16, UX-DR17, UX-DR18, UX-DR19, UX-DR20
+
+**Acceptance Criteria:**
+
+**Given** các luồng Discover -> PDP/Try-on -> Cart -> Checkout -> Tracking
+**When** kiểm thử tại tất cả breakpoint mục tiêu và keyboard-only path
+**Then** không có blocker thao tác hoặc vỡ layout ở các điểm dừng chính
+**And** form quan trọng có label, trạng thái focus, lỗi rõ nghĩa và giữ dữ liệu người dùng
+**And** thành phần tương tác đạt touch target tối thiểu và không phụ thuộc chỉ vào màu.
+
+### Story 8.3: Chuẩn hóa timeline trạng thái payment/tracking và recovery actions
+
+As a khách hàng và admin,
+I want thấy trạng thái giao dịch/vận đơn cùng hành động khôi phục rõ ràng,
+So that tôi biết chính xác bước tiếp theo khi có pending/degraded/error.
+
+**NFR/UX coverage:** NFR20, UX-DR4, UX-DR10, UX-DR12, UX-DR14
+
+**Acceptance Criteria:**
+
+**Given** đơn hàng có trạng thái payment hoặc shipping thay đổi
+**When** trạng thái chuyển success/pending/failed/degraded
+**Then** timeline hiển thị label, timestamp, next action theo format nhất quán
+**And** RecoveryActionBanner xuất hiện đúng điều kiện với CTA phù hợp vai trò
+**And** người dùng có thể tiếp tục tác vụ chính mà không mất ngữ cảnh.
+
+### Story 8.4: Thiết lập quality gate trình bày trước mốc demo
+
+As a nhóm dự án,
+I want checklist chất lượng UI/UX bắt buộc trước demo,
+So that feature hoàn tất không chỉ đúng chức năng mà còn đạt mức trình bày thuyết phục.
+
+**NFR/UX coverage:** NFR14-NFR17, NFR20, UX-DR1-UX-DR20
+
+**Acceptance Criteria:**
+
+**Given** một epic hoặc wave được đánh dấu hoàn tất chức năng
+**When** thực hiện pre-demo quality gate
+**Then** phải pass checklist consistency/responsive/a11y/feedback/recovery đã chốt
+**And** có evidence kiểm thử (keyboard walkthrough, a11y scan, screenshot trạng thái chính)
+**And** chỉ được chuyển Done khi pass đồng thời AC chức năng và AC trải nghiệm.
+
+## Epic 9: Data Foundation, Auditability và Reporting Readiness
+
+Củng cố mô hình dữ liệu, migration/persistence, khả năng đối soát và truy vết để phục vụ cả vận hành thực tế lẫn báo cáo/trình bày.
+
+### Story 9.1: Chuẩn hóa schema quan hệ cho order-payment-shipment-audit
+
+As a kỹ sư hệ thống,
+I want chuẩn hóa schema dữ liệu và ràng buộc cho các thực thể cốt lõi,
+So that dữ liệu đơn hàng và giao dịch nhất quán cho vận hành và báo cáo.
+
+**Coverage implemented:** Cross-cutting Epic 4/5/6/7 data consistency
+
+**Acceptance Criteria:**
+
+**Given** domain model hiện tại có thực thể order, payment, shipment, audit
+**When** chuẩn hóa schema và ràng buộc quan hệ được áp dụng
+**Then** các liên kết khóa và trạng thái bắt buộc cho nghiệp vụ core được enforce ở persistence layer
+**And** quy tắc dữ liệu tiền tệ/thời gian/trạng thái được thống nhất giữa API và DB
+**And** không phá vỡ contract nghiệp vụ đã có ở các epic trước.
+
+### Story 9.2: Baseline migration và seed dữ liệu phục vụ demo/reporting
+
+As a nhóm phát triển,
+I want có migration và seed baseline đáng tin cậy,
+So that mọi môi trường có thể dựng nhanh dữ liệu mẫu cho demo và kiểm thử.
+
+**Coverage implemented:** Cross-cutting migration and reporting readiness
+
+**Acceptance Criteria:**
+
+**Given** môi trường mới chưa có dữ liệu
+**When** chạy migration và seed baseline
+**Then** hệ thống tạo được bộ dữ liệu tối thiểu cho các luồng customer/admin/warehouse
+**And** seed bao gồm trạng thái đơn/giao dịch/vận chuyển đa dạng để test dashboard và reconciliation
+**And** quy trình khởi tạo có thể lặp lại nhiều lần với kết quả nhất quán.
+
+### Story 9.3: Chuẩn hóa audit trail và truy vết theo correlation context
+
+As a admin vận hành,
+I want truy vết được chuỗi sự kiện nghiệp vụ xuyên phân hệ,
+So that tôi có thể điều tra sự cố và đối soát dữ liệu nhanh chóng.
+
+**Coverage implemented:** Cross-cutting auditability for Epic 4/5/6/7
+
+**Acceptance Criteria:**
+
+**Given** các hành động quan trọng xảy ra ở checkout, payment, shipping, admin operations
+**When** hệ thống ghi log/audit
+**Then** mỗi bản ghi có correlation context để nối chuỗi truy vết theo order hoặc transaction
+**And** có khả năng lọc và tra cứu theo mốc thời gian, loại sự kiện và trạng thái
+**And** dữ liệu audit không làm lộ thông tin nhạy cảm ngoài phạm vi cần thiết.
+
+### Story 9.4: Chuẩn hóa dữ liệu xuất báo cáo vận hành và tài chính
+
+As a admin,
+I want dữ liệu báo cáo được chuẩn hóa và đối chiếu được với dữ liệu giao dịch gốc,
+So that báo cáo CSV/PDF đáng tin để trình bày và quyết định vận hành.
+
+**Coverage implemented:** Cross-cutting reporting and reconciliation readiness
+
+**Acceptance Criteria:**
+
+**Given** admin chọn khoảng thời gian báo cáo
+**When** hệ thống tổng hợp doanh thu, đơn hàng, giao dịch
+**Then** số liệu báo cáo khớp với dữ liệu nguồn theo quy tắc đối soát đã định
+**And** các trường dữ liệu xuất ra dùng định dạng nhất quán cho downstream analysis
+**And** sai lệch (nếu có) được gắn cờ để xử lý thay vì im lặng bỏ qua.
+
+## Epic 10: Nâng cấp Epic 1-5 theo PRD mới (MVP Presentation Upgrade)
+
+Nâng chất lượng các phần đã triển khai của Epic 1-5 để đạt chuẩn web e-commerce thông thường theo PRD mới, giữ nguyên ownership FR gốc.
+
+### Story 10.1: Nâng cấp Epic 1 (auth/profile) theo chuẩn measurable và presentation-ready
+
+As a khách hàng,
+I want luồng đăng ký/đăng nhập/hồ sơ rõ ràng và nhất quán trạng thái,
+So that tôi hoàn thành onboarding nhanh và ít lỗi.
+
+**Coverage implemented:** Gap remediation Epic 1 (FR1-FR6, NFR14-NFR17)
+
+**Acceptance Criteria:**
+
+**Given** user mới hoặc user đã có tài khoản
+**When** thao tác register/login/logout/update profile
+**Then** hệ thống phản hồi trạng thái thành công/lỗi rõ nghĩa theo taxonomy chung
+**And** form và validation tuân thủ chuẩn accessibility/keyboard/focus đã chốt
+**And** các tình huống khóa tài khoản và audit hiển thị đúng theo vai trò.
+
+### Story 10.2: Nâng cấp Epic 2 (catalog/PDP) cho trải nghiệm duyệt mua đầy đủ
+
+As a khách hàng,
+I want duyệt, tìm, lọc và xem PDP mượt như web e-commerce thông thường,
+So that tôi có đủ thông tin để quyết định mua.
+
+**Coverage implemented:** Gap remediation Epic 2 (FR7-FR12, NFR1)
+
+**Acceptance Criteria:**
+
+**Given** catalog có dữ liệu sản phẩm/biến thể
+**When** khách hàng duyệt danh mục, tìm kiếm, lọc và mở PDP
+**Then** kết quả trả về đúng điều kiện và thể hiện tồn kho/biến thể rõ ràng
+**And** các trạng thái loading/empty/no-result/error có hành động tiếp theo phù hợp
+**And** tiêu chí phản hồi hiệu năng cho browse/search được đo và đạt ngưỡng đã định.
+
+### Story 10.3: Nâng cấp Epic 3 (try-on/recommendation) theo chuẩn quyết định mua
+
+As a khách hàng,
+I want trải nghiệm try-on và recommendation ổn định, dễ hiểu kết quả,
+So that tôi tự tin chọn sản phẩm trước khi thêm giỏ.
+
+**Coverage implemented:** Gap remediation Epic 3 (FR13-FR18, NFR3)
+
+**Acceptance Criteria:**
+
+**Given** khách hàng upload ảnh và thực hiện try-on trên PDP
+**When** xử lý thành công hoặc gặp timeout/lỗi
+**Then** hệ thống hiển thị trạng thái và guidance theo cùng một pattern đã chuẩn hóa
+**And** khách hàng có thể retry và vẫn giữ được ngữ cảnh kết quả phiên
+**And** recommendation hiển thị đủ số lượng baseline theo quy tắc PRD.
+
+### Story 10.4: Nâng cấp Epic 4 (cart/checkout/payment) để giảm mơ hồ post-checkout
+
+As a khách hàng,
+I want luồng giỏ hàng, checkout và payment có trạng thái rõ ở mọi bước,
+So that tôi hoàn tất mua hàng mà không bị nhầm lẫn khi pending hoặc lỗi giao dịch.
+
+**Coverage implemented:** Gap remediation Epic 4 (FR19-FR31, NFR2)
+
+**Acceptance Criteria:**
+
+**Given** khách hàng có giỏ hàng hợp lệ và đi tới checkout
+**When** tạo đơn, thanh toán, nhận callback hoặc cần retry
+**Then** mỗi bước đều có trạng thái hiển thị rõ với next action cụ thể
+**And** timeline trạng thái thanh toán nhất quán giữa trang xác nhận đơn và trang chi tiết đơn
+**And** dữ liệu giao dịch được lưu đủ để truy vết và đối soát.
+
+### Story 10.5: Nâng cấp Epic 5 (order tracking/warehouse/shipping) cho minh bạch vận hành
+
+As a khách hàng và warehouse staff,
+I want theo dõi và xử lý đơn với trạng thái rõ ràng, không đứt mạch khi tích hợp shipping lỗi,
+So that quá trình giao nhận minh bạch và liên tục.
+
+**Coverage implemented:** Gap remediation Epic 5 (FR32-FR39, NFR4)
+
+**Acceptance Criteria:**
+
+**Given** đơn hàng đi qua các bước xử lý kho và giao vận
+**When** trạng thái đơn hoặc tracking thay đổi, hoặc shipping provider gián đoạn
+**Then** customer vẫn thấy timeline theo dõi rõ ràng với timestamp và trạng thái mới nhất an toàn
+**And** warehouse thao tác queue/pack/create shipment theo workflow nhất quán
+**And** fallback shipping không làm mất khả năng theo dõi đơn của khách hàng.
 
 ## Execution Runbook (Mô hình 2 vai trò)
 

@@ -1,6 +1,6 @@
 # Story 1.2: Đăng ký và đăng nhập tài khoản khách hàng
 
-Status: review
+Status: done
 
 ## Story
 
@@ -32,6 +32,14 @@ so that tôi có thể truy cập khu vực mua sắm cá nhân hóa.
 - [x] Kiểm thử và xác nhận baseline auth hoạt động (AC: 1)
   - [x] Test API register/login cho happy path + invalid credential + duplicate email
   - [x] Smoke test đăng ký → đăng nhập → đăng xuất trên local
+
+### Review Findings
+
+- [x] [Review][Patch] Khu vực customer chưa có auth guard server-side [tmdt/src/app/(customer)/cart/page.tsx:1]
+- [x] [Review][Patch] Race condition khi đăng ký đồng thời có thể gây duplicate/lost update [tmdt/src/modules/identity/user-store.js:34]
+- [x] [Review][Patch] Session không có kiểm tra hết hạn phía server [tmdt/src/modules/identity/session-store.js:20]
+- [x] [Review][Patch] Route auth chưa chuẩn hóa lỗi khi service ném exception [tmdt/src/app/api/auth/login/route.js:27]
+- [x] [Review][Defer] Session store dạng in-memory không phù hợp multi-instance [tmdt/src/modules/identity/session-store.js:3] — deferred, pre-existing
 
 ## Dev Notes
 

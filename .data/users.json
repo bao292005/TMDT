@@ -1,0 +1,240 @@
+[
+  {
+    "id": "00538d54-4cae-4c5b-b213-09f47ec76485",
+    "email": "admin-recon-summary-1776304221482-0.4964615283712961@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-16T01:50:21.482Z"
+  },
+  {
+    "id": "e47eba48-f37d-4a3a-8b8e-fd931f764b53",
+    "email": "admin-recon-customer-1776304221483-0.7582537460134426@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Recon Customer",
+      "phone": "+84901110000",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-16T01:50:21.483Z",
+    "updatedAt": "2026-04-16T01:50:21.484Z"
+  },
+  {
+    "id": "6ed4c623-dccb-40b0-ad3f-5ad7015ad2ef",
+    "email": "checkout-admin-1776345926852@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-16T13:25:26.853Z"
+  },
+  {
+    "id": "5d82a720-8b88-4212-b0d0-a6da98f8337c",
+    "email": "checkout-admin-post-1776345926855@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-16T13:25:26.856Z"
+  },
+  {
+    "id": "a641a4fa-722f-4560-82a0-6b1357537ce2",
+    "email": "checkout-api-1776345926857-0.6520355592026847@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.857Z",
+    "updatedAt": "2026-04-16T13:25:26.858Z"
+  },
+  {
+    "id": "152e7a5a-9edb-4097-8e45-e957356688a6",
+    "email": "checkout-api-1776345926862-0.5231595897230712@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.862Z",
+    "updatedAt": "2026-04-16T13:25:26.862Z"
+  },
+  {
+    "id": "0710d8e9-1582-410a-a83f-2ed3dc79b3e7",
+    "email": "checkout-api-1776345926864-0.8621162174780483@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.865Z",
+    "updatedAt": "2026-04-16T13:25:26.865Z"
+  },
+  {
+    "id": "d9f0bd5f-15e1-4043-a38d-4ef5a0edde5f",
+    "email": "checkout-api-1776345926867-0.7317546466547769@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.867Z",
+    "updatedAt": "2026-04-16T13:25:26.867Z"
+  },
+  {
+    "id": "d05bc773-c230-4df5-ad57-50697bb6795f",
+    "email": "checkout-api-1776345926938-0.7912535282817197@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.938Z",
+    "updatedAt": "2026-04-16T13:25:26.939Z"
+  },
+  {
+    "id": "a7d31c78-327f-4e4a-8e38-e58bb8fdd05b",
+    "email": "checkout-api-1776345926943-0.6298643131251813@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.943Z",
+    "updatedAt": "2026-04-16T13:25:26.943Z"
+  },
+  {
+    "id": "137d0660-e05c-44f8-9969-fa01276ada55",
+    "email": "checkout-api-1776345926947-0.6490339998099199@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.947Z",
+    "updatedAt": "2026-04-16T13:25:26.947Z"
+  },
+  {
+    "id": "c909fa82-74e2-4492-8dd0-490b1911a997",
+    "email": "checkout-api-1776345926949-0.9730114927781015@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:26.949Z",
+    "updatedAt": "2026-04-16T13:25:26.950Z"
+  },
+  {
+    "id": "8c8fc3f9-ecbe-4562-b0ec-43cc2f38045e",
+    "email": "checkout-retry-admin-1776345927017@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-16T13:25:27.018Z"
+  },
+  {
+    "id": "271904f8-49e9-44a8-9acd-9bf0f093f988",
+    "email": "checkout-api-1776345927020-0.5645066274810115@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:27.020Z",
+    "updatedAt": "2026-04-16T13:25:27.020Z"
+  },
+  {
+    "id": "df715c3b-5f0b-454c-b938-d885d816f79e",
+    "email": "checkout-api-1776345927160-0.5479510900667552@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-16T13:25:27.160Z",
+    "updatedAt": "2026-04-16T13:25:27.161Z"
+  }
+]

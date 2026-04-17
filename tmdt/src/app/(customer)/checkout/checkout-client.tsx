@@ -2,7 +2,16 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { resolveCheckoutFieldError, shouldRedirectToLogin } from "./checkout-client-logic.js";
+import { ActionButton } from "@/components/ui/action-button";
+import { FeedbackMessage } from "@/components/ui/feedback-message";
+import { PageShell } from "@/components/ui/page-shell";
+import { StatePanel } from "@/components/ui/state-panel";
+import { resolveAuthRedirectPath } from "@/shared/utils/auth-redirect";
+
+import {
+  formatTimelineTimestamp,
+  resolveCheckoutFieldError,
+} from "./checkout-client-logic.js";
 
 type CartItem = {
   productSlug: string;
@@ -60,7 +69,12 @@ type PaymentStatusPayload = {
     status: string;
     checkoutUrl: string | null;
   };
+  stateLabel: string;
+  stateTimestamp: string | null;
+  stateSource: string;
   nextAction: "retry_payment" | "refresh_status" | "none";
+  nextActionLabel: string;
+  nextActionGuidance: string;
 };
 
 type FieldError = "address" | "addressFormat" | "shippingMethod" | "paymentMethod" | null;
@@ -89,9 +103,62 @@ function isOrderPlacement(value: unknown): value is OrderPlacement {
 
 function isPaymentStatusPayload(value: unknown): value is PaymentStatusPayload {
   if (!value || typeof value !== "object") return false;
-  const maybe = value as { payment?: unknown; orderId?: unknown; nextAction?: unknown };
+  const maybe = value as {
+    payment?: unknown;
+    orderId?: unknown;
+    nextAction?: unknown;
+    stateLabel?: unknown;
+    stateTimestamp?: unknown;
+    stateSource?: unknown;
+    nextActionLabel?: unknown;
+    nextActionGuidance?: unknown;
+  };
+
+  const nextActionValid =
+    maybe.nextAction === "retry_payment" || maybe.nextAction === "refresh_status" || maybe.nextAction === "none";
+
   return Boolean(
-    maybe.payment && typeof maybe.payment === "object" && typeof maybe.orderId === "string" && typeof maybe.nextAction === "string",
+    maybe.payment &&
+      typeof maybe.payment === "object" &&
+      typeof maybe.orderId === "string" &&
+      nextActionValid &&
+      (typeof maybe.stateLabel === "string" || maybe.stateLabel === undefined) &&
+      (typeof maybe.stateTimestamp === "string" || maybe.stateTimestamp === null || maybe.stateTimestamp === undefined) &&
+      (typeof maybe.stateSource === "string" || maybe.stateSource === undefined) &&
+      (typeof maybe.nextActionLabel === "string" || maybe.nextActionLabel === undefined) &&
+      (typeof maybe.nextActionGuidance === "string" || maybe.nextActionGuidance === undefined),
+  );
+}
+
+function PaymentStatusTimeline({
+  stateLabel,
+  stateTimestamp,
+  stateSource,
+  nextActionLabel,
+  nextActionGuidance,
+  mode,
+}: {
+  stateLabel: string;
+  stateTimestamp: string | null;
+  stateSource: string;
+  nextActionLabel: string;
+  nextActionGuidance: string;
+  mode: "summary" | "full";
+}) {
+  return (
+    <ol className="space-y-2 rounded border border-zinc-200 bg-zinc-50 px-4 py-3" aria-label="Timeline trạng thái thanh toán">
+      <li className="text-sm text-zinc-800">
+        <p className="font-medium">{stateLabel}</p>
+        <p className="text-zinc-600">Mốc thời gian: {formatTimelineTimestamp(stateTimestamp)}</p>
+      </li>
+      <li className="text-sm text-zinc-800">
+        <p className="font-medium">Hành động tiếp theo: {nextActionLabel}</p>
+        <p className="text-zinc-600">{nextActionGuidance}</p>
+      </li>
+      {mode === "full" ? (
+        <li className="text-sm text-zinc-700">Nguồn cập nhật: {stateSource}</li>
+      ) : null}
+    </ol>
   );
 }
 
@@ -126,8 +193,9 @@ export function CheckoutClient() {
         const response = await fetch("/api/checkout", { cache: "no-store" });
         const payload: ApiPayload = await response.json();
 
-        if (shouldRedirectToLogin(response.status, payload.error)) {
-          window.location.assign("/login");
+        const authRedirectPath = resolveAuthRedirectPath(response.status, payload.error);
+        if (authRedirectPath) {
+          window.location.assign(authRedirectPath);
           return;
         }
 
@@ -221,8 +289,9 @@ export function CheckoutClient() {
       });
 
       const payload: ApiPayload = await response.json();
-      if (shouldRedirectToLogin(response.status, payload.error)) {
-        window.location.assign("/login");
+      const authRedirectPath = resolveAuthRedirectPath(response.status, payload.error);
+      if (authRedirectPath) {
+        window.location.assign(authRedirectPath);
         return;
       }
 
@@ -251,8 +320,9 @@ export function CheckoutClient() {
       });
       const payload: ApiPayload = await response.json();
 
-      if (shouldRedirectToLogin(response.status, payload.error)) {
-        window.location.assign("/login");
+      const authRedirectPath = resolveAuthRedirectPath(response.status, payload.error);
+      if (authRedirectPath) {
+        window.location.assign(authRedirectPath);
         return;
       }
 
@@ -279,8 +349,9 @@ export function CheckoutClient() {
       });
       const payload: ApiPayload = await response.json();
 
-      if (shouldRedirectToLogin(response.status, payload.error)) {
-        window.location.assign("/login");
+      const authRedirectPath = resolveAuthRedirectPath(response.status, payload.error);
+      if (authRedirectPath) {
+        window.location.assign(authRedirectPath);
         return;
       }
 
@@ -336,67 +407,64 @@ export function CheckoutClient() {
 
   if (loading) {
     return (
-      <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 px-6 py-10">
-        <h1 className="text-2xl font-semibold">Checkout</h1>
-        <p className="text-zinc-600">Đang tải thông tin checkout...</p>
-      </main>
+      <PageShell title="Checkout" maxWidth="3xl">
+        <StatePanel state="loading" title="Đang tải checkout" description="Vui lòng chờ trong giây lát." />
+      </PageShell>
     );
   }
 
   if (placedOrder) {
-    const displayedPaymentStatus = paymentStatus?.payment.status ?? placedOrder.payment.status;
     const displayedOrderStatus = paymentStatus?.orderStatus ?? placedOrder.order.status;
+    const timelineStateLabel = paymentStatus?.stateLabel ?? "Đang cập nhật trạng thái thanh toán";
+    const timelineStateTimestamp = paymentStatus?.stateTimestamp ?? null;
+    const timelineStateSource = paymentStatus?.stateSource ?? "unknown";
+    const timelineActionLabel = paymentStatus?.nextActionLabel ?? "Kiểm tra trạng thái";
+    const timelineActionGuidance =
+      paymentStatus?.nextActionGuidance ?? "Hệ thống đang đồng bộ trạng thái thanh toán mới nhất.";
 
     return (
-      <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-4 px-6 py-10">
-        <h1 className="text-2xl font-semibold">Đặt hàng thành công</h1>
-        <p className="rounded bg-green-50 px-3 py-2 text-sm text-green-700">
-          Mã đơn hàng: <strong>{placedOrder.order.id}</strong>
-        </p>
+      <PageShell title="Đặt hàng thành công" maxWidth="3xl">
+        <FeedbackMessage tone="success" message={`Mã đơn hàng: ${placedOrder.order.id}`} />
         <p className="text-sm text-zinc-700">Trạng thái đơn: {displayedOrderStatus}</p>
         <p className="text-sm text-zinc-700" aria-live="polite">
-          Trạng thái thanh toán: {displayedPaymentStatus}
+          Trạng thái thanh toán hiện tại: {timelineStateLabel}
         </p>
 
-        {paymentStatusError ? <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">{paymentStatusError}</p> : null}
+        <PaymentStatusTimeline
+          stateLabel={timelineStateLabel}
+          stateTimestamp={timelineStateTimestamp}
+          stateSource={timelineStateSource}
+          nextActionLabel={timelineActionLabel}
+          nextActionGuidance={timelineActionGuidance}
+          mode="summary"
+        />
 
-        {paymentStatus?.nextAction === "refresh_status" ? (
-          <p className="rounded bg-amber-50 px-3 py-2 text-sm text-amber-800">
-            Thanh toán đang chờ xác nhận. Hệ thống sẽ tự động cập nhật, bạn cũng có thể làm mới thủ công.
-          </p>
-        ) : null}
+        {paymentStatusError ? <FeedbackMessage tone="error" message={paymentStatusError} /> : null}
 
         {paymentStatus?.nextAction === "retry_payment" ? (
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
+            <ActionButton
               ref={retryPaymentRef}
               onClick={() => void handleRetryPayment(placedOrder.order.id)}
               disabled={retryingPayment}
               aria-disabled={retryingPayment}
-              className="inline-flex w-fit rounded bg-black px-4 py-2 text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {retryingPayment ? "Đang tạo giao dịch mới..." : "Thanh toán lại"}
-            </button>
-            <button
-              type="button"
+              {retryingPayment ? "Đang tạo giao dịch mới..." : timelineActionLabel}
+            </ActionButton>
+            <ActionButton
               onClick={() => void refreshPaymentStatus(placedOrder.order.id)}
               disabled={retryingPayment}
-              className="inline-flex w-fit rounded border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="secondary"
             >
               Làm mới trạng thái
-            </button>
+            </ActionButton>
           </div>
         ) : null}
 
         {paymentStatus?.nextAction === "refresh_status" ? (
-          <button
-            type="button"
-            onClick={() => void refreshPaymentStatus(placedOrder.order.id)}
-            className="inline-flex w-fit rounded border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-          >
-            Làm mới trạng thái
-          </button>
+          <ActionButton onClick={() => void refreshPaymentStatus(placedOrder.order.id)} variant="secondary">
+            {timelineActionLabel}
+          </ActionButton>
         ) : null}
 
         {(paymentStatus?.payment.checkoutUrl ?? placedOrder.payment.checkoutUrl) ? (
@@ -409,20 +477,18 @@ export function CheckoutClient() {
         ) : (
           <p className="text-sm text-zinc-700">Bạn đã chọn COD. Đơn hàng sẽ thanh toán khi nhận hàng.</p>
         )}
-      </main>
+      </PageShell>
     );
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-6 px-6 py-10">
-      <h1 className="text-2xl font-semibold">Checkout</h1>
-
-      {error ? <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+    <PageShell title="Checkout" maxWidth="3xl">
+      {error ? <FeedbackMessage tone="error" message={error} /> : null}
 
       {!summary ? (
-        <p className="rounded bg-zinc-100 px-3 py-2 text-sm text-zinc-700">Chưa có dữ liệu checkout khả dụng.</p>
+        <StatePanel state="empty" title="Chưa có dữ liệu checkout" description="Chưa có dữ liệu checkout khả dụng." />
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4 rounded border p-4" aria-label="Biểu mẫu checkout">
+        <form onSubmit={handleSubmit} className="space-y-4 rounded-sm border border-zinc-200 bg-white p-4 shadow-sm" aria-label="Biểu mẫu checkout">
           <div className="space-y-1">
             <label htmlFor="checkout-address" className="block text-sm font-medium">
               Địa chỉ nhận hàng
@@ -441,7 +507,7 @@ export function CheckoutClient() {
                 }
               }}
               aria-invalid={fieldError === "address"}
-              className="w-full rounded border px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+              className="w-full rounded-sm border border-zinc-300 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ee4d2d] focus-visible:ring-offset-2"
               disabled={submitting}
             >
               <option value="">Chọn địa chỉ giao hàng</option>
@@ -472,7 +538,7 @@ export function CheckoutClient() {
                   }
                 }}
                 aria-invalid={fieldError === "address" || fieldError === "addressFormat"}
-                className="w-full rounded border px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                className="w-full rounded-sm border border-zinc-300 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ee4d2d] focus-visible:ring-offset-2"
                 disabled={submitting}
               />
               {fieldError === "addressFormat" ? (
@@ -496,7 +562,7 @@ export function CheckoutClient() {
                 }
               }}
               aria-invalid={fieldError === "shippingMethod"}
-              className="w-full rounded border px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+              className="w-full rounded-sm border border-zinc-300 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ee4d2d] focus-visible:ring-offset-2"
               disabled={submitting}
             >
               <option value="">Chọn phương thức vận chuyển</option>
@@ -526,7 +592,7 @@ export function CheckoutClient() {
                 }
               }}
               aria-invalid={fieldError === "paymentMethod"}
-              className="w-full rounded border px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+              className="w-full rounded-sm border border-zinc-300 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ee4d2d] focus-visible:ring-offset-2"
               disabled={submitting}
             >
               <option value="">Chọn phương thức thanh toán</option>
@@ -551,7 +617,7 @@ export function CheckoutClient() {
             />
           </div>
 
-          <section className="space-y-2 rounded border p-3" aria-label="Tổng tiền checkout">
+          <section className="space-y-2 rounded-sm border border-zinc-200 bg-zinc-50 p-3" aria-label="Tổng tiền checkout">
             <p className="flex items-center justify-between text-sm text-zinc-700">
               <span>Tạm tính</span>
               <span>{formatCurrency(pricing.subtotal)}</span>
@@ -566,19 +632,15 @@ export function CheckoutClient() {
             </p>
             <p className="flex items-center justify-between text-base font-semibold">
               <span>Tổng cộng</span>
-              <span>{formatCurrency(pricing.total)}</span>
+              <span className="text-[#ee4d2d]">{formatCurrency(pricing.total)}</span>
             </p>
           </section>
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded bg-black px-4 py-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-          >
+          <ActionButton type="submit" disabled={submitting} className="w-full">
             {submitting ? "Đang đặt hàng..." : "Đặt hàng"}
-          </button>
+          </ActionButton>
         </form>
       )}
-    </main>
+    </PageShell>
   );
 }

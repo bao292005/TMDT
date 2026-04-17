@@ -2,6 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { ActionButton } from "@/components/ui/action-button";
+import { FeedbackMessage } from "@/components/ui/feedback-message";
+import { PageShell } from "@/components/ui/page-shell";
+import { StatePanel } from "@/components/ui/state-panel";
+
 type Variant = {
   size: string;
   color: string;
@@ -94,75 +99,74 @@ export function AdminProductsClient() {
     }
   }
 
-  if (loading) {
-    return (
-      <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-4 px-6 py-10">
-        <h1 className="text-2xl font-semibold">Quản lý sản phẩm</h1>
-        <p className="text-zinc-600">Đang tải dữ liệu...</p>
-      </main>
-    );
-  }
-
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-6 px-6 py-10">
-      <h1 className="text-2xl font-semibold">Quản lý sản phẩm</h1>
+    <PageShell title="Quản lý sản phẩm" maxWidth="4xl">
+      {error ? <FeedbackMessage tone="error" message={error} /> : null}
 
-      {error ? <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+      {loading ? (
+        <StatePanel state="loading" title="Đang tải dữ liệu" description="Vui lòng chờ trong giây lát." />
+      ) : (
+        <div className="space-y-4">
+          {products.map((product) => {
+            const isConfirming = deactivateConfirmId === product.id;
+            const isProcessing = actionKey === product.id;
 
-      <div className="space-y-4">
-        {products.map((product) => {
-          const isConfirming = deactivateConfirmId === product.id;
-          const isProcessing = actionKey === product.id;
-
-          return (
-            <article key={product.id} className="rounded border p-4 shadow-sm bg-white">
-              <div className="flex flex-wrap justify-between gap-4">
-                <div>
-                  <h2 className="font-semibold text-lg">{product.name}</h2>
-                  <p className="text-zinc-600 text-sm">Mã: {product.slug} | Giá: {formatCurrency(product.price)}</p>
-                  <p className="text-zinc-500 text-sm">
-                    Trạng thái: {product.isActive ? <span className="text-green-600 font-medium">Hoạt động</span> : <span className="text-red-500 font-medium">Ngừng kinh doanh</span>}
-                  </p>
-                </div>
-
-                {product.isActive ? (
-                  <div className="flex flex-col items-end gap-2">
-                    {isConfirming && (
-                      <div className="rounded bg-red-50 p-3 text-sm text-red-800 border border-red-200 w-full md:w-auto" role="alert">
-                        <p className="font-semibold mb-1">Cảnh báo: Hành động này không thể hoàn tác trên giao diện.</p>
-                        <p>Sản phẩm sẽ bị ẩn khỏi cửa hàng. Bạn có chắc chắn muốn ngừng kinh doanh?</p>
-                      </div>
-                    )}
-                    <div className="flex gap-2 w-full md:w-auto">
-                      {isConfirming && (
-                        <button
-                          type="button"
-                          disabled={isProcessing}
-                          onClick={() => setDeactivateConfirmId("")}
-                          className="flex-1 md:flex-none rounded border px-4 py-2 text-sm bg-white hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 disabled:opacity-50"
-                        >
-                          Hủy
-                        </button>
+            return (
+              <article key={product.id} className="space-y-3 rounded-sm border border-zinc-200 bg-white p-4 shadow-sm">
+                <div className="flex flex-wrap justify-between gap-4">
+                  <div className="space-y-1">
+                    <h2 className="text-lg font-semibold text-zinc-900">{product.name}</h2>
+                    <p className="text-sm text-zinc-600">Mã: {product.slug} | Giá: {formatCurrency(product.price)}</p>
+                    <p className="text-sm text-zinc-600">
+                      Trạng thái:{" "}
+                      {product.isActive ? (
+                        <span className="font-medium text-emerald-700">Hoạt động</span>
+                      ) : (
+                        <span className="font-medium text-red-600">Ngừng kinh doanh</span>
                       )}
-                      <button
-                        type="button"
-                        disabled={isProcessing}
-                        onClick={() => handleDeactivate(product.id)}
-                        className={`flex-1 md:flex-none rounded px-4 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 disabled:opacity-50 transition-colors ${
-                          isConfirming ? "bg-red-600 hover:bg-red-700 font-bold" : "bg-red-500 hover:bg-red-600"
-                        }`}
-                        aria-live="polite"
-                      >
-                        {isProcessing ? "Đang xử lý..." : (isConfirming ? "Chắc chắn vô hiệu hóa" : "Ngừng kinh doanh")}
-                      </button>
-                    </div>
+                    </p>
                   </div>
-                ) : null}
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </main>
+
+                  {product.isActive ? (
+                    <div className="flex flex-col items-end gap-2">
+                      {isConfirming ? (
+                        <FeedbackMessage
+                          tone="warning"
+                          title="Cảnh báo"
+                          message="Sản phẩm sẽ bị ẩn khỏi cửa hàng. Bạn có chắc chắn muốn ngừng kinh doanh?"
+                          className="w-full md:w-auto"
+                        />
+                      ) : null}
+
+                      <div className="flex w-full gap-2 md:w-auto">
+                        {isConfirming ? (
+                          <ActionButton
+                            type="button"
+                            variant="ghost"
+                            disabled={isProcessing}
+                            onClick={() => setDeactivateConfirmId("")}
+                          >
+                            Hủy
+                          </ActionButton>
+                        ) : null}
+                        <ActionButton
+                          type="button"
+                          variant={isConfirming ? "destructive" : "primary"}
+                          disabled={isProcessing}
+                          onClick={() => handleDeactivate(product.id)}
+                          aria-live="polite"
+                        >
+                          {isProcessing ? "Đang xử lý..." : isConfirming ? "Chắc chắn vô hiệu hóa" : "Ngừng kinh doanh"}
+                        </ActionButton>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </PageShell>
   );
 }

@@ -1,5 +1,16 @@
+import { randomUUID } from "node:crypto";
+
 import { register } from "@/modules/identity/auth-service.js";
 import { validateAuthPayload } from "@/shared/validation/auth.js";
+
+function jsonWithCorrelation(body, status) {
+  return Response.json(body, {
+    status,
+    headers: {
+      "X-Correlation-Id": randomUUID(),
+    },
+  });
+}
 
 export async function POST(request) {
   let payload;
@@ -7,45 +18,53 @@ export async function POST(request) {
   try {
     payload = await request.json();
   } catch {
-    return Response.json(
+    return jsonWithCorrelation(
       { success: false, error: "INVALID_INPUT", message: "Dữ liệu gửi lên không hợp lệ." },
-      { status: 400 },
+      400,
     );
   }
 
   const validation = validateAuthPayload(payload);
   if (!validation.success) {
-    return Response.json(
+    return jsonWithCorrelation(
       { success: false, error: "INVALID_INPUT", message: validation.error },
-      { status: 400 },
+      400,
     );
   }
 
-  const result = await register(validation.data.email, validation.data.password);
+  let result;
+  try {
+    result = await register(validation.data.email, validation.data.password);
+  } catch {
+    return jsonWithCorrelation(
+      { success: false, error: "AUTH_FAILED", message: "Đăng ký thất bại." },
+      500,
+    );
+  }
 
   if (!result.success && result.error === "EMAIL_ALREADY_EXISTS") {
-    return Response.json(
+    return jsonWithCorrelation(
       {
         success: false,
         error: "EMAIL_ALREADY_EXISTS",
         message: "Email đã được sử dụng.",
       },
-      { status: 409 },
+      409,
     );
   }
 
   if (!result.success) {
-    return Response.json(
+    return jsonWithCorrelation(
       { success: false, error: "AUTH_FAILED", message: "Đăng ký thất bại." },
-      { status: 500 },
+      500,
     );
   }
 
-  return Response.json(
+  return jsonWithCorrelation(
     {
       success: true,
       user: result.user,
     },
-    { status: 201 },
+    201,
   );
 }

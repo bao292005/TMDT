@@ -1,0 +1,146 @@
+[
+  {
+    "actorId": "system-payment",
+    "orderId": "bb230aee-6277-4bce-9f5b-b1d81fdb9047",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T01:50:21.470Z",
+    "correlationId": null,
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "aa645eb0-e359-4b0e-91ec-cec5cd0592ec",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T01:50:21.549Z",
+    "correlationId": null,
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "85044d57-7c19-41c9-960e-ae9176396deb",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T13:25:26.931Z",
+    "correlationId": "4831409f-dacf-4e24-99ce-872cc730882c",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "cb3b129e-62ed-4ba5-9639-d325d30be5a8",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T13:25:27.012Z",
+    "correlationId": "2ef01fda-c0d1-4407-bac8-2b830f53af9e",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "75ef9a7d-6b1a-4a97-a426-8f020dcea171",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T13:25:27.083Z",
+    "correlationId": "f64b75fa-91f7-43f1-97b9-4f2c84c9f407",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "75ef9a7d-6b1a-4a97-a426-8f020dcea171",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_RETRY_INIT_OK",
+    "timestamp": "2026-04-16T13:25:27.153Z",
+    "correlationId": "cfa30127-a396-4788-837a-0fe362ee220b",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_RETRY_INIT_OK",
+      "actionTaken": "fallback_resolved_retry_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_retry"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "e3a8ebdf-d8d8-4e22-98fe-2e44eeea5660",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_INIT_OK",
+    "timestamp": "2026-04-16T13:25:27.224Z",
+    "correlationId": "2f750e7e-4cbd-4ef4-b6a2-603919d03f2a",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_INIT_OK",
+      "actionTaken": "fallback_resolved_payment_initialized",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_initialization"
+    }
+  },
+  {
+    "actorId": "system-payment",
+    "orderId": "e3a8ebdf-d8d8-4e22-98fe-2e44eeea5660",
+    "action": "FALLBACK_RECOVERED",
+    "beforeStatus": null,
+    "afterStatus": null,
+    "reason": "PAYMENT_CALLBACK_PAID",
+    "timestamp": "2026-04-16T13:25:27.229Z",
+    "correlationId": "250da783-31d2-4137-bdfb-980243098b20",
+    "metadata": {
+      "source": "payment",
+      "reason": "PAYMENT_CALLBACK_PAID",
+      "actionTaken": "fallback_resolved_callback_confirmed",
+      "retryable": false,
+      "status": "recovered",
+      "lane": "payment_callback"
+    }
+  }
+]

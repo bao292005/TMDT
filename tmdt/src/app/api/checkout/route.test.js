@@ -84,7 +84,7 @@ test("checkout route chặn role không phải customer", { concurrency: false }
   });
   assert.equal(admin.success, true);
 
-  const token = createSession(admin.user.id, USER_ROLES.ADMIN);
+  const token = await createSession(admin.user.id, USER_ROLES.ADMIN);
   const response = await getCheckout(createRequest("/api/checkout", { token }));
 
   assert.equal(response.status, 403);
@@ -123,7 +123,7 @@ test("checkout route POST chặn role không phải customer", { concurrency: fa
   });
   assert.equal(admin.success, true);
 
-  const token = createSession(admin.user.id, USER_ROLES.ADMIN);
+  const token = await createSession(admin.user.id, USER_ROLES.ADMIN);
   const response = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -148,7 +148,7 @@ test("checkout route GET trả draft hợp lệ", { concurrency: false }, async 
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 2, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await getCheckout(createRequest("/api/checkout", { token }));
 
   assert.equal(response.status, 200);
@@ -169,7 +169,7 @@ test("checkout route PATCH validate payload", { concurrency: false }, async () =
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await patchCheckout(
     createRequest("/api/checkout", {
       method: "PATCH",
@@ -194,7 +194,7 @@ test("checkout route POST validate place-order payload", { concurrency: false },
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -218,7 +218,7 @@ test("checkout route POST tạo đơn online thành công", { concurrency: false
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -246,7 +246,7 @@ test("checkout route POST tạo đơn COD thành công", { concurrency: false },
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -273,7 +273,7 @@ test("checkout route POST map cart invalid từ gate", { concurrency: false }, a
     items: [{ productSlug: "ao-thun-basic-den", variantId: "l-den", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -309,7 +309,7 @@ test("payment-status route trả ORDER_INVALID_INPUT khi thiếu orderId", { con
   await __resetPaymentStoreForTests();
 
   const user = await seedCustomerWithProfile();
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const response = await getPaymentStatus(createRequest("/api/checkout/payment-status", { token }));
 
   assert.equal(response.status, 400);
@@ -329,7 +329,7 @@ test("payment-status route trả nextAction refresh_status cho đơn pending", {
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const placeOrderResponse = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -349,6 +349,11 @@ test("payment-status route trả nextAction refresh_status cho đơn pending", {
   assert.equal(payload.success, true);
   assert.equal(payload.state, "success");
   assert.equal(payload.data.nextAction, "refresh_status");
+  assert.equal(payload.data.stateLabel, "Đang chờ cổng thanh toán phản hồi");
+  assert.equal(payload.data.stateSource, "created_at");
+  assert.equal(typeof payload.data.stateTimestamp, "string");
+  assert.equal(payload.data.nextActionLabel, "Làm mới trạng thái");
+  assert.match(payload.data.nextActionGuidance, /làm mới/i);
 });
 
 test("retry-payment route chặn role không phải customer", { concurrency: false }, async () => {
@@ -362,7 +367,7 @@ test("retry-payment route chặn role không phải customer", { concurrency: fa
   });
   assert.equal(admin.success, true);
 
-  const token = createSession(admin.user.id, USER_ROLES.ADMIN);
+  const token = await createSession(admin.user.id, USER_ROLES.ADMIN);
   const response = await postRetryPayment(
     createRequest("/api/checkout/retry-payment", { method: "POST", token, body: { orderId: "missing" } }),
   );
@@ -387,7 +392,7 @@ test("retry-payment route tạo giao dịch mới khi đơn failed", { concurren
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const placedResponse = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",
@@ -465,7 +470,7 @@ test("webhook payment route idempotent khi callback trùng", { concurrency: fals
     items: [{ productSlug: "ao-thun-basic-trang", variantId: "m-trang", quantity: 1, addedAt: Date.now() }],
   });
 
-  const token = createSession(user.id, USER_ROLES.CUSTOMER);
+  const token = await createSession(user.id, USER_ROLES.CUSTOMER);
   const placedResponse = await postCheckout(
     createRequest("/api/checkout", {
       method: "POST",

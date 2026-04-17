@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { resolveCheckoutFieldError, shouldRedirectToLogin } from "./checkout-client-logic.js";
+import {
+  formatTimelineTimestamp,
+  resolveCheckoutFieldError,
+  shouldRedirectToLogin,
+} from "./checkout-client-logic.js";
 
 test("checkout logic: redirect khi unauthorized hoặc forbidden", () => {
   assert.equal(shouldRedirectToLogin(401), true);
@@ -20,6 +24,13 @@ test("checkout logic: resolve field error theo address/shipping/payment", () => 
   assert.equal(resolveCheckoutFieldError("1 Nguyen Trai", "express", "online"), null);
 });
 
+test("checkout logic: format timeline timestamp có fallback", () => {
+  assert.equal(formatTimelineTimestamp(null), "Chưa có mốc thời gian");
+  assert.equal(formatTimelineTimestamp(""), "Chưa có mốc thời gian");
+  assert.equal(formatTimelineTimestamp("invalid-date"), "Chưa có mốc thời gian");
+  assert.match(formatTimelineTimestamp("2026-04-13T10:00:00.000Z"), /\d{1,2}/);
+});
+
 test("checkout client giữ accessibility semantics", async () => {
   const source = await readFile(new URL("./checkout-client.tsx", import.meta.url), "utf8");
 
@@ -34,4 +45,8 @@ test("checkout client giữ accessibility semantics", async () => {
   assert.match(source, /retryPaymentRef\.current\?\.focus\(\)/);
   assert.match(source, /ref=\{retryPaymentRef\}/);
   assert.match(source, /focus-visible:ring-2/);
+  assert.match(source, /<ol className="space-y-2 rounded border border-zinc-200 bg-zinc-50 px-4 py-3" aria-label="Timeline trạng thái thanh toán">/);
+  assert.match(source, /<li className="text-sm text-zinc-800">/);
+  assert.match(source, /Mốc thời gian:/);
+  assert.match(source, /Hành động tiếp theo:/);
 });

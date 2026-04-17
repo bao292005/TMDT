@@ -1,9 +1,14 @@
 import { randomUUID } from "node:crypto";
 
-import { createProduct, findProductById, listProducts, updateProductById } from "./product-store.js";
+import {
+  createProduct,
+  findProductById,
+  listProducts,
+  updateProductById,
+} from "./product-store.js";
 
 function normalizeText(value) {
-  return value.trim().toLowerCase();
+  return String(value ?? "").trim().toLowerCase();
 }
 
 function toCatalogItem(product) {
@@ -47,20 +52,30 @@ function toAdminProduct(product) {
   };
 }
 
-function findProductBySlug(slug) {
-  const normalizedSlug = normalizeText(slug);
+async function findProductBySlug(slug) {
+  if (typeof slug !== "string" || !slug.trim()) {
+    return undefined;
+  }
 
-  return listProducts().find(
+  const normalizedSlug = normalizeText(slug);
+  const products = await listProducts();
+
+  return products.find(
     (product) => product.isActive && normalizeText(product.slug) === normalizedSlug,
   );
 }
 
-function findAnyProductBySlug(slug) {
+async function findAnyProductBySlug(slug) {
+  if (typeof slug !== "string" || !slug.trim()) {
+    return undefined;
+  }
+
   const normalizedSlug = normalizeText(slug);
-  return listProducts().find((product) => normalizeText(product.slug) === normalizedSlug);
+  const products = await listProducts();
+  return products.find((product) => normalizeText(product.slug) === normalizedSlug);
 }
 
-export function getCatalogProducts({
+export async function getCatalogProducts({
   category,
   keyword,
   size,
@@ -72,10 +87,11 @@ export function getCatalogProducts({
 }) {
   const normalizedCategory = category ? normalizeText(category) : "";
   const normalizedKeyword = keyword ? normalizeText(keyword) : "";
-  const normalizedSize = size ? normalizeText(size) : "";
-  const normalizedColor = color ? normalizeText(color) : "";
+  const normalizedSize = typeof size === "string" && size.trim() ? normalizeText(size) : "";
+  const normalizedColor = typeof color === "string" && color.trim() ? normalizeText(color) : "";
 
-  let filtered = listProducts().filter((product) => product.isActive);
+  const allProducts = await listProducts();
+  let filtered = allProducts.filter((product) => product.isActive);
 
   if (normalizedCategory) {
     filtered = filtered.filter((product) => normalizeText(product.category) === normalizedCategory);
@@ -89,11 +105,11 @@ export function getCatalogProducts({
     filtered = filtered.filter((product) => normalizeText(product.color) === normalizedColor);
   }
 
-  if (minPrice !== null) {
+  if (Number.isFinite(minPrice)) {
     filtered = filtered.filter((product) => product.price >= minPrice);
   }
 
-  if (maxPrice !== null) {
+  if (Number.isFinite(maxPrice)) {
     filtered = filtered.filter((product) => product.price <= maxPrice);
   }
 
@@ -106,12 +122,12 @@ export function getCatalogProducts({
 
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  const safePage = Math.min(page, totalPages);
+  const safePage = Math.max(1, Math.min(page, totalPages));
   const start = (safePage - 1) * pageSize;
-  const items = filtered.slice(start, start + pageSize).map(toCatalogItem);
+  const pageProducts = filtered.slice(start, start + pageSize);
 
   return {
-    items,
+    items: pageProducts.map(toCatalogItem),
     pagination: {
       page: safePage,
       pageSize,
@@ -121,8 +137,8 @@ export function getCatalogProducts({
   };
 }
 
-export function getCatalogProductDetail({ slug, size, color }) {
-  const product = findProductBySlug(slug);
+export async function getCatalogProductDetail({ slug, size, color }) {
+  const product = await findProductBySlug(slug);
   if (!product) {
     return { success: false, code: "CATALOG_NOT_FOUND", message: "Không tìm thấy sản phẩm." };
   }
@@ -136,8 +152,8 @@ export function getCatalogProductDetail({ slug, size, color }) {
     };
   }
 
-  const normalizedSize = size ? normalizeText(size) : "";
-  const normalizedColor = color ? normalizeText(color) : "";
+  const normalizedSize = typeof size === "string" && size.trim() ? normalizeText(size) : "";
+  const normalizedColor = typeof color === "string" && color.trim() ? normalizeText(color) : "";
 
   const requestedVariant =
     normalizedSize && normalizedColor
@@ -175,8 +191,10 @@ export function getCatalogProductDetail({ slug, size, color }) {
   };
 }
 
-export function listAdminCatalogProducts() {
-  const items = listProducts().map(toAdminProduct);
+export async function listAdminCatalogProducts() {
+  const products = await listProducts();
+  const items = products.map(toAdminProduct);
+
   return {
     success: true,
     data: {
@@ -199,7 +217,7 @@ function validateAdminProductPayload(payload, isUpdate = false) {
   }
 
   if (!isUpdate || payload.price !== undefined) {
-    if (typeof payload.price !== "number" || payload.price < 0) {
+    if (!Number.isSafeInteger(payload.price) || payload.price <= 0) {
       return "Giá sản phẩm không hợp lệ.";
     }
   }
@@ -209,7 +227,12 @@ function validateAdminProductPayload(payload, isUpdate = false) {
       return "Biến thể sản phẩm phải là mảng.";
     }
     for (const variant of payload.variants) {
-      if (typeof variant.size !== "string" || typeof variant.color !== "string" || typeof variant.stock !== "number" || variant.stock < 0) {
+      if (
+        typeof variant.size !== "string" ||
+        typeof variant.color !== "string" ||
+        !Number.isSafeInteger(variant.stock) ||
+        variant.stock < 0
+      ) {
         return "Thông tin biến thể không hợp lệ.";
       }
     }
@@ -224,17 +247,17 @@ function validateAdminProductPayload(payload, isUpdate = false) {
   return null;
 }
 
-export function createAdminCatalogProduct(payload) {
+export async function createAdminCatalogProduct(payload) {
   const validationError = validateAdminProductPayload(payload, false);
   if (validationError) {
     return {
       success: false,
       code: "CATALOG_INVALID_PAYLOAD",
-      message: validationError
+      message: validationError,
     };
   }
 
-  const duplicated = findAnyProductBySlug(payload.slug);
+  const duplicated = await findAnyProductBySlug(payload.slug);
   if (duplicated) {
     return {
       success: false,
@@ -244,7 +267,7 @@ export function createAdminCatalogProduct(payload) {
   }
 
   const now = new Date().toISOString();
-  const created = createProduct({
+  const created = await createProduct({
     id: `p-${randomUUID()}`,
     ...payload,
     createdAt: now,
@@ -257,17 +280,17 @@ export function createAdminCatalogProduct(payload) {
   };
 }
 
-export function updateAdminCatalogProduct(productId, updates) {
+export async function updateAdminCatalogProduct(productId, updates) {
   const validationError = validateAdminProductPayload(updates, true);
   if (validationError) {
     return {
       success: false,
       code: "CATALOG_INVALID_PAYLOAD",
-      message: validationError
+      message: validationError,
     };
   }
 
-  const existing = findProductById(productId);
+  const existing = await findProductById(productId);
   if (!existing) {
     return {
       success: false,
@@ -277,7 +300,7 @@ export function updateAdminCatalogProduct(productId, updates) {
   }
 
   if (typeof updates.slug === "string" && normalizeText(updates.slug) !== normalizeText(existing.slug)) {
-    const duplicated = findAnyProductBySlug(updates.slug);
+    const duplicated = await findAnyProductBySlug(updates.slug);
     if (duplicated && duplicated.id !== existing.id) {
       return {
         success: false,
@@ -287,7 +310,7 @@ export function updateAdminCatalogProduct(productId, updates) {
     }
   }
 
-  const updated = updateProductById(productId, {
+  const updated = await updateProductById(productId, {
     ...updates,
     updatedAt: new Date().toISOString(),
   });
@@ -306,8 +329,8 @@ export function updateAdminCatalogProduct(productId, updates) {
   };
 }
 
-export function deactivateAdminCatalogProduct(productId) {
-  const existing = findProductById(productId);
+export async function deactivateAdminCatalogProduct(productId) {
+  const existing = await findProductById(productId);
   if (!existing) {
     return {
       success: false,
@@ -326,7 +349,7 @@ export function deactivateAdminCatalogProduct(productId) {
     };
   }
 
-  const updated = updateProductById(productId, {
+  const updated = await updateProductById(productId, {
     isActive: false,
     updatedAt: new Date().toISOString(),
   });

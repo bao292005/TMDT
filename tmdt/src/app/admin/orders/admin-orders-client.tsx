@@ -2,15 +2,21 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { ActionButton } from "@/components/ui/action-button";
+import { FeedbackMessage } from "@/components/ui/feedback-message";
+import { PageShell } from "@/components/ui/page-shell";
+import { StatePanel } from "@/components/ui/state-panel";
+
 type Order = {
   id: string;
   userId: string;
   status: string;
   createdAt: string;
   itemCount: number;
-  pricing: {
-    total: number;
+  pricing?: {
+    total?: number;
   };
+  allowedTransitions?: string[];
 };
 
 type ApiPayload = {
@@ -41,18 +47,6 @@ function translateStatus(status: string) {
   };
   return map[status] || status;
 }
-
-const ADMIN_TRANSITIONS: Record<string, string[]> = {
-  pending_payment: ["pending_verification", "payment_failed", "paid", "cancelled"],
-  pending_verification: ["paid", "payment_failed", "cancelled"],
-  payment_failed: ["pending_payment", "cancelled"],
-  confirmed_cod: ["processing", "cancelled"],
-  paid: ["processing", "cancelled"],
-  processing: ["shipped", "cancelled"],
-  shipped: ["delivered"],
-  delivered: [],
-  cancelled: [],
-};
 
 const DESTRUCTIVE_STATUSES = new Set(["cancelled", "payment_failed"]);
 
@@ -140,18 +134,15 @@ export function AdminOrdersClient() {
 
   if (loading) {
     return (
-      <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-4 px-6 py-10">
-        <h1 className="text-2xl font-semibold">Quản lý Đơn hàng</h1>
-        <p className="text-zinc-600">Đang tải dữ liệu...</p>
-      </main>
+      <PageShell title="Quản lý Đơn hàng">
+        <StatePanel state="loading" title="Đang tải dữ liệu" description="Vui lòng chờ trong giây lát." />
+      </PageShell>
     );
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 px-6 py-10">
-      <h1 className="text-2xl font-semibold">Quản lý Đơn hàng</h1>
-
-      {error ? <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+    <PageShell title="Quản lý Đơn hàng">
+      {error ? <FeedbackMessage tone="error" message={error} /> : null}
 
       <div className="overflow-x-auto rounded border">
         <table className="w-full text-left text-sm whitespace-nowrap">
@@ -166,25 +157,26 @@ export function AdminOrdersClient() {
           </thead>
           <tbody className="divide-y bg-white">
             {orders.map((order) => {
-              const allowedTransitions = ADMIN_TRANSITIONS[order.status] || [];
+              const allowedTransitions = order.allowedTransitions ?? [];
               const isEditing = editingOrderId === order.id;
+              const totalAmount =
+                typeof order.pricing?.total === "number" && Number.isFinite(order.pricing.total)
+                  ? order.pricing.total
+                  : 0;
 
               return (
                 <tr key={order.id} className="hover:bg-zinc-50">
                   <td className="px-4 py-3 font-mono text-xs">{order.id}</td>
                   <td className="px-4 py-3">{new Date(order.createdAt).toLocaleString("vi-VN")}</td>
-                  <td className="px-4 py-3">{formatCurrency(order.pricing.total)}</td>
+                  <td className="px-4 py-3">{formatCurrency(totalAmount)}</td>
                   <td className="px-4 py-3 font-medium">
                     {translateStatus(order.status)}
                   </td>
                   <td className="px-4 py-3 min-w-[300px]">
                     {!isEditing && allowedTransitions.length > 0 && (
-                      <button
-                        onClick={() => startEditing(order)}
-                        className="text-blue-600 hover:text-blue-800 text-sm focus-visible:outline-none focus-visible:underline"
-                      >
+                      <ActionButton onClick={() => startEditing(order)} variant="ghost" size="sm">
                         Đổi trạng thái
-                      </button>
+                      </ActionButton>
                     )}
 
                     {isEditing && (
@@ -216,20 +208,17 @@ export function AdminOrdersClient() {
                             )}
                             
                             <div className="flex gap-2">
-                              <button
+                              <ActionButton
                                 onClick={handleUpdateStatus}
                                 disabled={isProcessing}
-                                className={`rounded px-3 py-1.5 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:opacity-50 ${isConfirming ? "bg-red-600 hover:bg-red-700 focus-visible:ring-red-500" : "bg-black hover:bg-zinc-800 focus-visible:ring-black"}`}
+                                variant={isConfirming ? "destructive" : "primary"}
+                                size="sm"
                               >
                                 {isProcessing ? "Đang lưu..." : isConfirming ? "Xác nhận cập nhật" : "Cập nhật"}
-                              </button>
-                              <button
-                                onClick={cancelEditing}
-                                disabled={isProcessing}
-                                className="rounded border bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-1"
-                              >
+                              </ActionButton>
+                              <ActionButton onClick={cancelEditing} disabled={isProcessing} variant="secondary" size="sm">
                                 Hủy
-                              </button>
+                              </ActionButton>
                             </div>
                           </div>
                         )}
@@ -241,14 +230,14 @@ export function AdminOrdersClient() {
             })}
             {orders.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-zinc-500">
-                  Không có đơn hàng nào
+                <td colSpan={5} className="px-4 py-4">
+                  <StatePanel state="empty" title="Không có đơn hàng" description="Không có đơn hàng nào." />
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-    </main>
+    </PageShell>
   );
 }

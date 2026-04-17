@@ -1,0 +1,770 @@
+[
+  {
+    "id": "7e0bbfe9-c427-4a06-9026-7918683d5c87",
+    "email": "admin-report-1776408457031@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:37.032Z"
+  },
+  {
+    "id": "fadf2fed-9ca1-4838-83ed-bd3cd341212c",
+    "email": "checkout-admin-1776408459513@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:39.513Z"
+  },
+  {
+    "id": "e1def2fe-7460-4569-bca7-2598105c150d",
+    "email": "checkout-admin-post-1776408459517@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:39.518Z"
+  },
+  {
+    "id": "f9af2ec9-1961-4666-aea6-757098205468",
+    "email": "checkout-api-1776408459521-0.5428709482595664@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.521Z",
+    "updatedAt": "2026-04-17T06:47:39.522Z"
+  },
+  {
+    "id": "bf89d2f1-6fe9-4fbe-85b6-be3e51cd6e6b",
+    "email": "checkout-api-1776408459535-0.4380814824587762@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.535Z",
+    "updatedAt": "2026-04-17T06:47:39.535Z"
+  },
+  {
+    "id": "77654380-adeb-4d35-9bd3-14b852aeeae0",
+    "email": "checkout-api-1776408459539-0.9668346705685444@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.539Z",
+    "updatedAt": "2026-04-17T06:47:39.540Z"
+  },
+  {
+    "id": "cad09d6a-03df-4c10-89e8-d354cbb31e68",
+    "email": "checkout-api-1776408459542-0.24443551582124567@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.542Z",
+    "updatedAt": "2026-04-17T06:47:39.543Z"
+  },
+  {
+    "id": "968ffe4e-64f0-4103-b7c5-ef856cba82b4",
+    "email": "checkout-api-1776408459612-0.5636772333462783@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.612Z",
+    "updatedAt": "2026-04-17T06:47:39.613Z"
+  },
+  {
+    "id": "fdb58cab-5a0e-4b7e-b568-f6a2e552dc99",
+    "email": "checkout-api-1776408459618-0.7643965992344612@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.618Z",
+    "updatedAt": "2026-04-17T06:47:39.619Z"
+  },
+  {
+    "id": "7460085e-ce1f-4a3c-9d5d-f1d36bfdfd24",
+    "email": "checkout-api-1776408459626-0.8653642602347609@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.627Z",
+    "updatedAt": "2026-04-17T06:47:39.627Z"
+  },
+  {
+    "id": "21175081-57ad-4a85-b56c-ad238f2ac8bc",
+    "email": "checkout-api-1776408459629-0.4727814678040414@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.629Z",
+    "updatedAt": "2026-04-17T06:47:39.630Z"
+  },
+  {
+    "id": "96e381a0-8af5-4b8b-8851-af718da02e00",
+    "email": "checkout-retry-admin-1776408459698@example.com",
+    "passwordHash": "hash",
+    "role": "admin",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:39.698Z"
+  },
+  {
+    "id": "ae22f966-7d97-47b8-844b-294aa56448d3",
+    "email": "checkout-api-1776408459700-0.9598954102172084@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.700Z",
+    "updatedAt": "2026-04-17T06:47:39.700Z"
+  },
+  {
+    "id": "26a566c2-4388-44e9-a92d-dfeaad4ae3b3",
+    "email": "checkout-api-1776408459838-0.34084926356834244@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Checkout User",
+      "phone": "+84901122334",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.839Z",
+    "updatedAt": "2026-04-17T06:47:39.839Z"
+  },
+  {
+    "id": "56eae299-a55e-40fa-96c2-85e05a2948ba",
+    "email": "orders-api-1776408459997-0.8396191182879429@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Orders API User",
+      "phone": "+84908887777",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:39.997Z",
+    "updatedAt": "2026-04-17T06:47:39.999Z"
+  },
+  {
+    "id": "186c43f2-ffb2-441f-b946-846938a77442",
+    "email": "orders-api-1776408460018-0.09036002482997407@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Orders API User",
+      "phone": "+84908887777",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:40.019Z",
+    "updatedAt": "2026-04-17T06:47:40.019Z"
+  },
+  {
+    "id": "676b12b0-e362-4efb-ad67-73d99ed52f6e",
+    "email": "orders-api-1776408460027-0.8439453960677112@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Orders API User",
+      "phone": "+84908887777",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:40.027Z",
+    "updatedAt": "2026-04-17T06:47:40.028Z"
+  },
+  {
+    "id": "58462453-fafb-42cb-8983-df0883068464",
+    "email": "orders-api-foreign-1776408460032@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:40.033Z"
+  },
+  {
+    "id": "16455def-1560-4b5e-a672-6ab850e4d7fc",
+    "email": "orders-api-1776408460035-0.42709751542724517@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Orders API User",
+      "phone": "+84908887777",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:40.035Z",
+    "updatedAt": "2026-04-17T06:47:40.035Z"
+  },
+  {
+    "id": "68ea913d-8655-42df-b045-f4d029363b0e",
+    "email": "orders-api-1776408460041-0.923037332058779@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Orders API User",
+      "phone": "+84908887777",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:40.041Z",
+    "updatedAt": "2026-04-17T06:47:40.041Z"
+  },
+  {
+    "id": "74a1d425-d3b1-440b-b835-55963e146b5a",
+    "email": "warehouse-customer-1776408465437-0.20589600405291408@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:45.438Z"
+  },
+  {
+    "id": "2b7f81a6-f4ae-4144-8e72-7d8200c74126",
+    "email": "warehouse-warehouse-1776408465441-0.9708369007953996@example.com",
+    "passwordHash": "hash",
+    "role": "warehouse",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:45.441Z"
+  },
+  {
+    "id": "7bda8f2a-489d-4689-aa63-f83dcd8132d8",
+    "email": "warehouse-customer-1776408465445-0.13345717549785352@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:45.446Z"
+  },
+  {
+    "id": "072a7dcd-f821-4303-b885-25053f7961f1",
+    "email": "warehouse-warehouse-1776408465449-0.04619095541736762@example.com",
+    "passwordHash": "hash",
+    "role": "warehouse",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "",
+      "phone": "",
+      "addresses": []
+    },
+    "createdAt": "2026-04-17T06:47:45.450Z"
+  },
+  {
+    "id": "1f5b5b69-1e96-46f4-8045-d0f3b676fde3",
+    "email": "checkout-1776408465856-0.6089483351658862@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Nguyen Van A",
+      "phone": "+84901234567",
+      "addresses": [
+        "1 Nguyen Trai",
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:45.857Z",
+    "updatedAt": "2026-04-17T06:47:45.858Z"
+  },
+  {
+    "id": "4dab2d2e-bcaa-4750-9313-e9673539e670",
+    "email": "checkout-1776408465870-0.3237063952117021@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Nguyen Van B",
+      "phone": "+84902223333",
+      "addresses": [
+        "3 Tran Hung Dao"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:45.870Z",
+    "updatedAt": "2026-04-17T06:47:45.872Z"
+  },
+  {
+    "id": "d9762eaa-4852-42ee-a3a9-8978fb6bf411",
+    "email": "checkout-1776408465877-0.6959090806141832@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Nguyen Van C",
+      "phone": "+84903334444",
+      "addresses": [
+        "5 Hai Ba Trung"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:45.877Z",
+    "updatedAt": "2026-04-17T06:47:45.878Z"
+  },
+  {
+    "id": "e9603c8e-c7af-4500-8056-bdf2ed20fb4a",
+    "email": "checkout-1776408465887-0.6636741501852736@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Nguyen Van D",
+      "phone": "+84904445555",
+      "addresses": [
+        "7 Nguyen Du"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:45.888Z",
+    "updatedAt": "2026-04-17T06:47:45.889Z"
+  },
+  {
+    "id": "3296fc26-5ae7-4028-9250-17ae307d9841",
+    "email": "order-1776408468671-0.8690121238535462@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Online",
+      "phone": "+84901111111",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.671Z",
+    "updatedAt": "2026-04-17T06:47:48.673Z"
+  },
+  {
+    "id": "ca35ba8e-5263-4fb1-ad9a-fc920f728b21",
+    "email": "order-1776408468751-0.30848517750815785@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order COD",
+      "phone": "+84902222222",
+      "addresses": [
+        "2 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.751Z",
+    "updatedAt": "2026-04-17T06:47:48.752Z"
+  },
+  {
+    "id": "34facf12-d701-4ba5-9fd0-900a06e758fd",
+    "email": "order-1776408468758-0.7421670171635695@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Invalid",
+      "phone": "+84903333333",
+      "addresses": [
+        "3 Tran Hung Dao"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.758Z",
+    "updatedAt": "2026-04-17T06:47:48.759Z"
+  },
+  {
+    "id": "aa2326db-8a34-44c4-82d7-a68e755bb262",
+    "email": "order-1776408468764-0.08807288368872634@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Callback",
+      "phone": "+84904444444",
+      "addresses": [
+        "4 Le Lai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.764Z",
+    "updatedAt": "2026-04-17T06:47:48.765Z"
+  },
+  {
+    "id": "c12d205e-8ae5-4579-bf0a-2cfce795f73f",
+    "email": "order-1776408468837-0.4352901895074526@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Pending To Success",
+      "phone": "+84907777777",
+      "addresses": [
+        "7 Hai Ba Trung"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.838Z",
+    "updatedAt": "2026-04-17T06:47:48.838Z"
+  },
+  {
+    "id": "8dcff2aa-52cf-43f3-a57f-c67a956f6496",
+    "email": "order-1776408468925-0.3253867824831571@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Status",
+      "phone": "+84905555555",
+      "addresses": [
+        "5 Nguyen Hue"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:48.925Z",
+    "updatedAt": "2026-04-17T06:47:48.932Z"
+  },
+  {
+    "id": "34ef0b70-4f15-4931-9a72-3db7836f2e10",
+    "email": "order-1776408469005-0.7063954514267918@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Order Retry",
+      "phone": "+84906666666",
+      "addresses": [
+        "6 Ly Tu Trong"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.005Z",
+    "updatedAt": "2026-04-17T06:47:49.005Z"
+  },
+  {
+    "id": "ac83ac56-bb86-4fce-b1ce-300ead02c696",
+    "email": "order-1776408469137-0.3934792890825465@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "List A",
+      "phone": "+84908888888",
+      "addresses": [
+        "8 Cach Mang Thang Tam"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.138Z",
+    "updatedAt": "2026-04-17T06:47:49.138Z"
+  },
+  {
+    "id": "35847fc6-abac-4845-bd7e-531aee6ec512",
+    "email": "order-1776408469138-0.5405742349360063@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "List B",
+      "phone": "+84909999999",
+      "addresses": [
+        "9 Vo Van Tan"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.140Z",
+    "updatedAt": "2026-04-17T06:47:49.141Z"
+  },
+  {
+    "id": "db2aed32-723a-49c0-a40c-7a6f971c68d7",
+    "email": "order-1776408469155-0.6991454791920564@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Owner",
+      "phone": "+84901231231",
+      "addresses": [
+        "10 Nguyen Hue"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.156Z",
+    "updatedAt": "2026-04-17T06:47:49.158Z"
+  },
+  {
+    "id": "7e7d1b08-144f-47dc-980a-693c4145524c",
+    "email": "order-1776408469158-0.8690754058252823@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Attacker",
+      "phone": "+84904564564",
+      "addresses": [
+        "11 Le Loi"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.159Z",
+    "updatedAt": "2026-04-17T06:47:49.159Z"
+  },
+  {
+    "id": "49b6538a-a3ac-410e-8b11-e38edc74a52b",
+    "email": "order-1776408469228-0.7949537816505929@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Shipping Degraded",
+      "phone": "+84901112222",
+      "addresses": [
+        "12 Nguyen Du"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:49.228Z",
+    "updatedAt": "2026-04-17T06:47:49.230Z"
+  },
+  {
+    "id": "85b3285d-05d8-47ec-a399-f24757e33ab0",
+    "email": "order-1776408473273-0.05961383633892914@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Shipping Non Retryable",
+      "phone": "+84902223333",
+      "addresses": [
+        "13bis Le Thanh Ton"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.274Z",
+    "updatedAt": "2026-04-17T06:47:53.274Z"
+  },
+  {
+    "id": "587c5a3c-7c9d-4376-bcb4-03460d677fbe",
+    "email": "order-1776408473347-0.9340614284702247@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Shipping Synced",
+      "phone": "+84903334444",
+      "addresses": [
+        "13 Le Thanh Ton"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.348Z",
+    "updatedAt": "2026-04-17T06:47:53.348Z"
+  },
+  {
+    "id": "28fc660f-c837-4b01-bf76-7d500d504639",
+    "email": "order-1776408473443-0.7662764957471937@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Admin Transition",
+      "phone": "+84906667777",
+      "addresses": [
+        "14 Le Duan"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.444Z",
+    "updatedAt": "2026-04-17T06:47:53.445Z"
+  },
+  {
+    "id": "12a8e872-324c-411b-abbc-0258a29000b4",
+    "email": "order-1776408473453-0.9009254936082425@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Admin Invalid Transition",
+      "phone": "+84908889999",
+      "addresses": [
+        "15 Pasteur"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.453Z",
+    "updatedAt": "2026-04-17T06:47:53.454Z"
+  },
+  {
+    "id": "424c4a52-ad32-4906-b52a-68e72f4a144f",
+    "email": "order-1776408473466-0.4519437929761241@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Admin Idempotent",
+      "phone": "+84907778888",
+      "addresses": [
+        "16 Dien Bien Phu"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.467Z",
+    "updatedAt": "2026-04-17T06:47:53.468Z"
+  },
+  {
+    "id": "2e7bd2c2-23ea-4550-9ca8-0c371002395b",
+    "email": "order-1776408473483-0.5772111447691772@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Admin Audit Failure",
+      "phone": "+84906661111",
+      "addresses": [
+        "17 Nguyen Dinh Chieu"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.483Z",
+    "updatedAt": "2026-04-17T06:47:53.484Z"
+  },
+  {
+    "id": "c0023e5f-58a3-4ea3-b763-956a07d0d8d6",
+    "email": "order-1776408473498-0.6432590805240623@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "KPI User",
+      "phone": "+84901111111",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.498Z",
+    "updatedAt": "2026-04-17T06:47:53.499Z"
+  },
+  {
+    "id": "d197434e-ed98-45ce-a874-b4fdd5b0dfda",
+    "email": "order-1776408473582-0.32507531545802104@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "KPI Timerange",
+      "phone": "+84901112233",
+      "addresses": [
+        "18 Tran Cao Van"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.582Z",
+    "updatedAt": "2026-04-17T06:47:53.582Z"
+  },
+  {
+    "id": "ed8954d3-c926-4760-9204-9642de4b8f7e",
+    "email": "order-1776408473599-0.07891117206506482@example.com",
+    "passwordHash": "hash",
+    "role": "customer",
+    "accountStatus": "active",
+    "profile": {
+      "fullName": "Exc User",
+      "phone": "+84901111111",
+      "addresses": [
+        "1 Nguyen Trai"
+      ]
+    },
+    "createdAt": "2026-04-17T06:47:53.599Z",
+    "updatedAt": "2026-04-17T06:47:53.600Z"
+  }
+]

@@ -7,6 +7,7 @@ import {
   findPaymentTransactionByProviderReference,
   updatePaymentTransactionById,
 } from "./payment-store.js";
+import { appendFallbackAuditEvent } from "../identity/audit-log-store.js";
 
 export const PAYMENT_METHODS = {
   ONLINE: "online",
@@ -18,6 +19,76 @@ const CALLBACK_STATUS_TO_PAYMENT_STATUS = {
   pending: "pending_verification",
   failed: "failed",
 };
+
+const PAYMENT_STATUS_LABELS = {
+  paid: "Thanh toán thành công",
+  pending_verification: "Đang chờ xác nhận thanh toán",
+  pending_gateway: "Đang chờ cổng thanh toán phản hồi",
+  failed: "Thanh toán thất bại",
+  retrying: "Đang khởi tạo giao dịch thanh toán lại",
+  pending_cod_confirmation: "Thanh toán khi nhận hàng (COD)",
+};
+
+function resolvePaymentStateLabel(status) {
+  if (typeof status !== "string") {
+    return "Trạng thái thanh toán không xác định";
+  }
+
+  return PAYMENT_STATUS_LABELS[status] ?? `Trạng thái thanh toán: ${status}`;
+}
+
+function isValidTimestamp(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return false;
+  }
+
+  const parsed = new Date(value);
+  return !Number.isNaN(parsed.getTime());
+}
+
+function resolvePaymentStateTime(transaction) {
+  if (isValidTimestamp(transaction?.callbackEventTime)) {
+    return {
+      stateTimestamp: transaction.callbackEventTime,
+      stateSource: "callback_event_time",
+    };
+  }
+
+  if (transaction?.callbackReceivedAt) {
+    return {
+      stateTimestamp: transaction.callbackReceivedAt,
+      stateSource: "callback_received_at",
+    };
+  }
+
+  if (transaction?.updatedAt) {
+    return {
+      stateTimestamp: transaction.updatedAt,
+      stateSource: "updated_at",
+    };
+  }
+
+  if (transaction?.createdAt) {
+    return {
+      stateTimestamp: transaction.createdAt,
+      stateSource: "created_at",
+    };
+  }
+
+  return {
+    stateTimestamp: null,
+    stateSource: "unknown",
+  };
+}
+
+function buildPaymentTimelineState(transaction) {
+  const { stateTimestamp, stateSource } = resolvePaymentStateTime(transaction);
+  return {
+    stateLabel: resolvePaymentStateLabel(transaction?.status),
+    stateTimestamp,
+    stateSource,
+  };
+}
 
 function normalizeCallbackStatus(status) {
   const normalized = typeof status === "string" ? status.trim().toLowerCase() : "";
@@ -72,7 +143,42 @@ function buildOnlineTransaction({ orderId, amount, initialized, retryOfTransacti
   };
 }
 
-export async function initializePaymentForOrder({ orderId, amount, paymentMethod }) {
+async function appendPaymentFallbackEvent({ orderId, correlationId, reason, actionTaken, status, retryable, metadata }) {
+  await appendFallbackAuditEvent({
+    actorId: "system-payment",
+    orderId,
+    correlationId,
+    source: "payment",
+    reason,
+    actionTaken,
+    status,
+    retryable,
+    metadata,
+  });
+}
+
+function buildFallbackNextAction(retryable) {
+  if (retryable) {
+    return {
+      nextAction: "retry_payment",
+      nextActionLabel: "Thử lại thanh toán",
+      nextActionGuidance: "Cổng thanh toán đang gián đoạn tạm thời. Vui lòng thử lại sau ít phút.",
+    };
+  }
+
+  return {
+    nextAction: "contact_support",
+    nextActionLabel: "Liên hệ hỗ trợ",
+    nextActionGuidance: "Thanh toán không thể tự phục hồi. Vui lòng liên hệ hỗ trợ để xử lý thủ công.",
+  };
+}
+
+function resolveCorrelationId(correlationId) {
+  return typeof correlationId === "string" && correlationId.trim() ? correlationId.trim() : randomUUID();
+}
+
+export async function initializePaymentForOrder({ orderId, amount, paymentMethod, correlationId = randomUUID() }) {
+  const resolvedCorrelationId = resolveCorrelationId(correlationId);
   if (paymentMethod === PAYMENT_METHODS.COD) {
     const transaction = {
       id: randomUUID(),
@@ -99,12 +205,49 @@ export async function initializePaymentForOrder({ orderId, amount, paymentMethod
   if (paymentMethod === PAYMENT_METHODS.ONLINE) {
     const initialized = await initializeOnlinePayment({ orderId, amount });
     if (!initialized.success) {
+      const retryable = Boolean(initialized.retryable);
+      await appendPaymentFallbackEvent({
+        orderId,
+        correlationId: resolvedCorrelationId,
+        reason: initialized.code ?? "PAYMENT_PROVIDER_UNAVAILABLE",
+        actionTaken: retryable ? "fallback_retry_payment_init" : "fallback_manual_payment_support",
+        status: "activated",
+        retryable,
+        metadata: {
+          lane: "payment_initialization",
+        },
+      });
+
       return {
         success: false,
         code: "PAYMENT_INITIALIZATION_FAILED",
         message: "Không thể khởi tạo giao dịch thanh toán online.",
+        retryable,
+        data: {
+          integrationError: {
+            code: initialized.code,
+            source: initialized.source ?? "payment",
+            message: initialized.message,
+            correlationId: resolvedCorrelationId,
+            retryable,
+            details: initialized.details ?? null,
+          },
+          ...buildFallbackNextAction(retryable),
+        },
       };
     }
+
+    await appendPaymentFallbackEvent({
+      orderId,
+      correlationId: resolvedCorrelationId,
+      reason: "PAYMENT_INIT_OK",
+      actionTaken: "fallback_resolved_payment_initialized",
+      status: "recovered",
+      retryable: false,
+      metadata: {
+        lane: "payment_initialization",
+      },
+    });
 
     const transaction = buildOnlineTransaction({ orderId, amount, initialized });
     await createPaymentTransaction(transaction);
@@ -127,7 +270,9 @@ export async function processPaymentCallback({
   status,
   eventTime,
   idempotencyKey,
+  correlationId = randomUUID(),
 }) {
+  const resolvedCorrelationId = resolveCorrelationId(correlationId);
   const paymentStatus = normalizeCallbackStatus(status);
   if (!paymentStatus) {
     return {
@@ -166,6 +311,34 @@ export async function processPaymentCallback({
     updatedAt: new Date().toISOString(),
   });
 
+  if (paymentStatus === "paid") {
+    await appendPaymentFallbackEvent({
+      orderId,
+      correlationId: resolvedCorrelationId,
+      reason: "PAYMENT_CALLBACK_PAID",
+      actionTaken: "fallback_resolved_callback_confirmed",
+      status: "recovered",
+      retryable: false,
+      metadata: {
+        lane: "payment_callback",
+      },
+    });
+  }
+
+  if (paymentStatus === "pending_verification") {
+    await appendPaymentFallbackEvent({
+      orderId,
+      correlationId: resolvedCorrelationId,
+      reason: "PAYMENT_CALLBACK_PENDING",
+      actionTaken: "fallback_refresh_payment_status",
+      status: "activated",
+      retryable: true,
+      metadata: {
+        lane: "payment_callback",
+      },
+    });
+  }
+
   return {
     success: true,
     data: {
@@ -187,11 +360,15 @@ export async function getPaymentStatusForOrder(orderId) {
 
   return {
     success: true,
-    data: transaction,
+    data: {
+      ...transaction,
+      ...buildPaymentTimelineState(transaction),
+    },
   };
 }
 
-export async function retryPaymentForOrder(order) {
+export async function retryPaymentForOrder(order, { correlationId = randomUUID() } = {}) {
+  const resolvedCorrelationId = resolveCorrelationId(correlationId);
   const latest = await findLatestPaymentTransactionByOrderId(order.id);
   if (!latest) {
     return {
@@ -215,12 +392,49 @@ export async function retryPaymentForOrder(order) {
   });
 
   if (!initialized.success) {
+    const retryable = Boolean(initialized.retryable);
+    await appendPaymentFallbackEvent({
+      orderId: order.id,
+      correlationId: resolvedCorrelationId,
+      reason: initialized.code ?? "PAYMENT_PROVIDER_UNAVAILABLE",
+      actionTaken: retryable ? "fallback_retry_payment_init" : "fallback_manual_payment_support",
+      status: "activated",
+      retryable,
+      metadata: {
+        lane: "payment_retry",
+      },
+    });
+
     return {
       success: false,
       code: "PAYMENT_INITIALIZATION_FAILED",
       message: "Không thể khởi tạo giao dịch retry.",
+      retryable,
+      data: {
+        integrationError: {
+          code: initialized.code,
+          source: initialized.source ?? "payment",
+          message: initialized.message,
+          correlationId: resolvedCorrelationId,
+          retryable,
+          details: initialized.details ?? null,
+        },
+        ...buildFallbackNextAction(retryable),
+      },
     };
   }
+
+  await appendPaymentFallbackEvent({
+    orderId: order.id,
+    correlationId: resolvedCorrelationId,
+    reason: "PAYMENT_RETRY_INIT_OK",
+    actionTaken: "fallback_resolved_retry_initialized",
+    status: "recovered",
+    retryable: false,
+    metadata: {
+      lane: "payment_retry",
+    },
+  });
 
   const transaction = buildOnlineTransaction({
     orderId: order.id,

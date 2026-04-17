@@ -1,0 +1,23 @@
+[
+  {
+    "id": "order-ready-shipment",
+    "userId": "customer-1",
+    "status": "shipped",
+    "pricing": {
+      "total": 100000
+    },
+    "items": [
+      {
+        "productSlug": "ao-thun-basic-trang",
+        "variantId": "m-trang",
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2026-04-17T08:15:01.506Z",
+    "pickedAt": "2026-04-14T08:05:00.000Z",
+    "packedAt": "2026-04-14T08:20:00.000Z",
+    "trackingNumber": "TRK-1776413701509-869D3A2E",
+    "shippedAt": "2026-04-17T08:15:01.509Z",
+    "updatedAt": "2026-04-17T08:15:01.509Z"
+  }
+]

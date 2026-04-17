@@ -1,0 +1,11 @@
+[
+  {
+    "actorId": "warehouse-1",
+    "orderId": "order-ready-shipment",
+    "action": "create_shipment",
+    "beforeStatus": "processing",
+    "afterStatus": "shipped",
+    "timestamp": "2026-04-17T08:15:01.510Z",
+    "correlationId": "corr-shipment"
+  }
+]

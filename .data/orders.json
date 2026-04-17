@@ -1,0 +1,29 @@
+[
+  {
+    "id": "e3a8ebdf-d8d8-4e22-98fe-2e44eeea5660",
+    "userId": "df715c3b-5f0b-454c-b938-d885d816f79e",
+    "status": "paid",
+    "checkout": {
+      "selectedAddress": "1 Nguyen Trai",
+      "selectedShippingMethod": "express",
+      "note": ""
+    },
+    "pricing": {
+      "subtotal": 199000,
+      "shippingFee": 45000,
+      "discount": 0,
+      "total": 244000
+    },
+    "items": [
+      {
+        "productSlug": "ao-thun-basic-trang",
+        "variantId": "m-trang",
+        "quantity": 1,
+        "title": "Áo thun basic màu trắng",
+        "price": 199000
+      }
+    ],
+    "createdAt": "2026-04-16T13:25:27.163Z",
+    "updatedAt": "2026-04-16T13:25:27.231Z"
+  }
+]

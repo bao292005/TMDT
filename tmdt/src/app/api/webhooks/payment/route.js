@@ -124,7 +124,10 @@ export async function POST(request) {
     return jsonError(validation.code, validation.message, correlationId, 400);
   }
 
-  const result = await reconcilePaymentCallback(validation.data);
+  const result = await reconcilePaymentCallback({
+    ...validation.data,
+    correlationId,
+  });
   if (!result.success) {
     return jsonError(result.code, result.message, correlationId, resolveErrorStatus(result.code), result.data);
   }

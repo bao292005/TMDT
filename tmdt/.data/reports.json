@@ -1,0 +1,19 @@
+[
+  {
+    "id": "job_251868d6-b584-4139-b9d2-8f0ca7a6fbea",
+    "type": "Order",
+    "format": "CSV",
+    "startDate": "2023-01-01",
+    "endDate": "2023-12-31",
+    "requestedBy": "d5dbdc0b-9cd0-46f3-88eb-543a3a6cb5d8",
+    "status": "Completed",
+    "downloadUrl": "/api/admin/reports/download/job_251868d6-b584-4139-b9d2-8f0ca7a6fbea",
+    "artifact": {
+      "fileName": "order-job_251868d6-b584-4139-b9d2-8f0ca7a6fbea.csv",
+      "contentType": "text/csv; charset=utf-8",
+      "content": "\"reportId\",\"type\",\"format\",\"startDate\",\"endDate\",\"generatedAt\"\n\"job_251868d6-b584-4139-b9d2-8f0ca7a6fbea\",\"Order\",\"CSV\",\"2023-01-01\",\"2023-12-31\",\"2026-04-17T08:14:41.108Z\""
+    },
+    "createdAt": "2026-04-17T08:14:39.106Z",
+    "completedAt": "2026-04-17T08:14:41.108Z"
+  }
+]

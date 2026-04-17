@@ -1,6 +1,9 @@
+import { randomUUID } from "node:crypto";
+
 import { logout } from "@/modules/identity/auth-service.js";
 
 const SESSION_COOKIE = "session_token";
+const SESSION_ROLE_COOKIE = "session_role";
 
 function extractSessionToken(request) {
   const cookieHeader = request.headers.get("cookie") ?? "";
@@ -18,12 +21,24 @@ function extractSessionToken(request) {
 
 export async function POST(request) {
   const token = extractSessionToken(request);
-  logout(token);
+  await logout(token);
 
-  const response = Response.json({ success: true }, { status: 200 });
-  response.headers.set(
+  const response = Response.json(
+    { success: true },
+    {
+      status: 200,
+      headers: {
+        "X-Correlation-Id": randomUUID(),
+      },
+    },
+  );
+  response.headers.append(
     "Set-Cookie",
     `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`,
+  );
+  response.headers.append(
+    "Set-Cookie",
+    `${SESSION_ROLE_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`,
   );
 
   return response;

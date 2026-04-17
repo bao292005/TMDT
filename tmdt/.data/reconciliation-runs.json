@@ -1,0 +1,36 @@
+[
+  {
+    "runId": "run-recon-3",
+    "idempotencyKey": "recon-key-idempotent",
+    "correlationId": "corr-recon-3",
+    "startedAt": "2026-04-17T08:14:56.349Z",
+    "completedAt": "2026-04-17T08:14:56.350Z",
+    "scannedCount": 1,
+    "mismatchCount": 1,
+    "resolvedCount": 1,
+    "unresolvedCount": 0,
+    "mismatches": [
+      {
+        "orderId": "order-recon-idempotent-1",
+        "type": "ORDER_STATE_DRIFT",
+        "source": "payment",
+        "before": {
+          "orderStatus": "pending_payment",
+          "paymentStatus": "paid",
+          "trackingNumber": null
+        },
+        "after": {
+          "orderStatus": "paid",
+          "paymentStatus": "paid",
+          "trackingNumber": null
+        },
+        "resolved": true,
+        "reason": "RECONCILIATION_APPLIED",
+        "retryable": false,
+        "detectedAt": "2026-04-17T08:14:56.350Z",
+        "runId": "run-recon-3"
+      }
+    ],
+    "errors": []
+  }
+]

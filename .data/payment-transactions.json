@@ -1,0 +1,21 @@
+[
+  {
+    "id": "7a1e4ab1-7b57-43c1-8f75-7e6975ccc52d",
+    "orderId": "e3a8ebdf-d8d8-4e22-98fe-2e44eeea5660",
+    "method": "online",
+    "status": "paid",
+    "amount": 244000,
+    "provider": "sandbox-gateway",
+    "providerReference": "sandbox-E3A8EBDF-D8D8-4E22-98FE-2E44EEEA5660",
+    "checkoutUrl": "/payment/sandbox/E3A8EBDF-D8D8-4E22-98FE-2E44EEEA5660",
+    "retryOfTransactionId": null,
+    "processedIdempotencyKeys": [
+      "idem-duplicate-1"
+    ],
+    "lastIdempotencyKey": "idem-duplicate-1",
+    "createdAt": "2026-04-16T13:25:27.225Z",
+    "callbackEventTime": "2026-04-16T13:25:27.227Z",
+    "callbackReceivedAt": "2026-04-16T13:25:27.228Z",
+    "updatedAt": "2026-04-16T13:25:27.228Z"
+  }
+]
